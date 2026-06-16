@@ -16,6 +16,17 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loadingAuth, setLoadingAuth] = useState(true)
 
+  // Verificar autenticação
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const user = localStorage.getItem('user')
+    
+    if (token && user) {
+      setIsAuthenticated(true)
+    }
+    setLoadingAuth(false)
+  }, [])
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) setMostrarBotaoTopo(true)
@@ -28,17 +39,6 @@ function App() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
-
-  // Verificar autenticação
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    const user = localStorage.getItem('user')
-    
-    if (token && user) {
-      setIsAuthenticated(true)
-    }
-    setLoadingAuth(false)
-  }, [])
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true)
@@ -68,10 +68,9 @@ function App() {
     return (
       <div className="app">
         <Header onLogout={handleLogout} />
-        <main style={{ paddingTop: '80px' }}>
+        <main>
           <AdminDashboard />
         </main>
-        <Footer />
         {mostrarBotaoTopo && (
           <button className="btn-topo" onClick={scrollToTop}>↑</button>
         )}

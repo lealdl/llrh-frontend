@@ -10,15 +10,25 @@ const Servicos = () => {
     const carregarServicos = async () => {
       try {
         const data = await api.getServicos();
+        console.log('📦 Serviços recebidos:', data);
+        
+        let servicosData = [];
         if (data && data.success && Array.isArray(data.data)) {
-          setServicos(data.data);
+          servicosData = data.data;
         } else if (Array.isArray(data)) {
-          setServicos(data);
-        } else {
-          setServicos([]);
+          servicosData = data;
         }
+        
+        // 🔥 FILTRA APENAS SERVIÇOS ATIVOS (ativo = 1)
+        const servicosAtivos = servicosData.filter(servico => {
+          const ativo = parseInt(servico.ativo);
+          return ativo === 1;
+        });
+        
+        console.log(`📊 Total: ${servicosData.length} | Ativos: ${servicosAtivos.length}`);
+        setServicos(servicosAtivos);
       } catch (error) {
-        console.error('Erro:', error);
+        console.error('Erro ao carregar serviços:', error);
         setServicos([]);
       } finally {
         setLoading(false);

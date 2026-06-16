@@ -22,18 +22,19 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .logo-img {
-  height: 40px;
-  width: auto;
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .logo-circle {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
@@ -41,88 +42,69 @@
   justify-content: center;
   color: white;
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .logo-text {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: #1a1a2e;
 }
 
-/* Menu Desktop */
-.nav-desktop {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.nav-desktop a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  transition: color 0.3s ease;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.nav-desktop a:hover {
-  color: #667eea;
-}
-
-.nav-desktop .admin-link {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 0.4rem 1rem;
-  border-radius: 50px;
-}
-
-/* Botão Hamburguer - SEMPRE VISÍVEL */
-.menu-hamburger {
-  display: flex !important;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  z-index: 1002;
-}
-
-.menu-hamburger span {
-  width: 25px;
-  height: 3px;
-  background: #333;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-
-.menu-hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.menu-hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.menu-hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
-}
-
-/* Admin Header */
+/* ADMIN HEADER - fundo BRANCO igual ao público */
 .admin-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white !important;
+  padding: 0.8rem 0 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
 }
 
 .admin-header .logo-text {
-  color: white;
+  color: #1a1a2e !important;
 }
 
-.admin-header .menu-hamburger span {
-  background: white;
+.admin-header .header-container {
+  padding: 0 2rem !important;
 }
 
-/* Drawer Overlay */
+/* Hamburger - apenas linhas */
+.hamburger-btn-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px 8px;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.hamburger-btn-custom:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.hamburger-line-custom {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background-color: #333333;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+/* Admin - linhas escuras (igual ao público) */
+.admin-header .hamburger-line-custom {
+  background-color: #333333 !important;
+}
+
+.admin-header .hamburger-btn-custom:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
 .drawer-overlay {
   position: fixed;
   top: 0;
@@ -142,7 +124,6 @@
   visibility: visible;
 }
 
-/* Drawer */
 .drawer {
   position: fixed;
   top: 0;
@@ -197,12 +178,13 @@
 
 .drawer-logo-text h3 {
   font-size: 1rem;
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .drawer-logo-text p {
   font-size: 0.7rem;
   color: #666;
+  margin: 0;
 }
 
 .drawer-close {
@@ -219,6 +201,7 @@
   flex-direction: column;
   padding: 1.5rem;
   gap: 1rem;
+  overflow-y: auto;
 }
 
 .drawer-nav a {
@@ -236,10 +219,6 @@
 
 .drawer-nav a:hover {
   background: #f8f9fa;
-}
-
-.drawer-icon {
-  font-size: 1.2rem;
 }
 
 .drawer-section-title {
@@ -267,12 +246,7 @@
   color: #999;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
-  .nav-desktop {
-    display: none;
-  }
-  
   .header-container {
     padding: 0 1rem;
   }
@@ -282,16 +256,28 @@
   }
   
   .logo-img {
-    height: 35px;
+    height: 40px;
+    width: 40px;
   }
-}
 
-@media (min-width: 769px) {
-  .menu-hamburger {
-    display: flex !important;
+  .logo-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
   }
-  
-  .nav-desktop {
-    display: flex;
+
+  .hamburger-btn-custom {
+    padding: 8px 6px;
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .hamburger-line-custom {
+    width: 24px;
+    height: 3px;
+  }
+
+  .admin-header .header-container {
+    padding: 0 1rem !important;
   }
 }

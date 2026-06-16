@@ -84,12 +84,10 @@ export const getServicos = async () => {
         const response = await fetch(`${API_URL}/servicos`);
         const data = await response.json();
         
-        // Se a API retornar { success: true, data: [...] }
         if (data.success && Array.isArray(data.data)) {
             return data.data;
         }
         
-        // Se a API retornar diretamente o array
         if (Array.isArray(data)) {
             return data;
         }
@@ -138,6 +136,7 @@ export const createServico = async (servico) => {
 
 export const updateServico = async (id, servico) => {
     try {
+        console.log('🔄 updateServico chamado com:', { id, servico });
         const token = localStorage.getItem('token');
         const response = await fetch(`${API_URL}/admin/servicos/${id}`, {
             method: 'PUT',
@@ -147,10 +146,12 @@ export const updateServico = async (id, servico) => {
             },
             body: JSON.stringify(servico)
         });
-        return await response.json();
+        const data = await response.json();
+        console.log('📥 Resposta do update:', data);
+        return data;
     } catch (error) {
-        console.error('Erro:', error);
-        return { success: false };
+        console.error('Erro no updateServico:', error);
+        return { success: false, message: error.message };
     }
 };
 

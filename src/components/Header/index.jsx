@@ -6,12 +6,9 @@ import './header.css';
 const Header = ({ onLogout }) => {
   const [drawerAberto, setDrawerAberto] = useState(false);
   const [logoUrl, setLogoUrl] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsAdmin(params.get('admin') === 'true');
-  }, []);
+  const [isAdmin, setIsAdmin] = useState(() => {
+    return new URLSearchParams(window.location.search).get('admin') === 'true';
+  });
 
   useEffect(() => {
     const carregarLogo = async () => {
@@ -71,15 +68,8 @@ const Header = ({ onLogout }) => {
       <div className={`drawer ${drawerAberto ? 'active' : ''}`}>
         <div className="drawer-header">
           <div className="drawer-logo">
-            {logoUrl ? (
-              <img src={logoUrl} alt="LLRH Logo" className="drawer-logo-img" />
-            ) : (
-              <div className="drawer-logo-circle">LLRH</div>
-            )}
-            <div className="drawer-logo-text">
-              <h3>LLRH</h3>
-              <p>ATRAÇÃO DE TALENTOS</p>
-            </div>
+            {logoUrl ? <img src={logoUrl} alt="LLRH Logo" className="drawer-logo-img" /> : <div className="drawer-logo-circle">LLRH</div>}
+            <div className="drawer-logo-text"><h3>LLRH</h3><p>ATRAÇÃO DE TALENTOS</p></div>
           </div>
           <button className="drawer-close" onClick={() => setDrawerAberto(false)}>×</button>
         </div>
@@ -113,37 +103,24 @@ const Header = ({ onLogout }) => {
     </>
   );
 
+  console.log('🔍 Header renderizado - isAdmin:', isAdmin);
+
   return (
     <>
       <header className={`header ${isAdmin ? 'admin-header' : ''}`}>
         <div className="header-container">
           <div className="logo" onClick={() => !isAdmin && scrollToSection('home')}>
-            {logoUrl ? (
-              <img src={logoUrl} alt="Logo" className="logo-img" />
-            ) : (
-              <div className="logo-circle">LLRH</div>
-            )}
-            <span className="logo-text">
-              {isAdmin ? 'Painel Administrativo' : 'LLRH - Atração de Talentos'}
-            </span>
+            {logoUrl ? <img src={logoUrl} alt="Logo" className="logo-img" /> : <div className="logo-circle">LLRH</div>}
+            <span className="logo-text">{isAdmin ? 'Painel Administrativo' : 'LLRH - Atração de Talentos'}</span>
           </div>
           
-          {/* Botão Hamburguer - SIMPLES, SEM ANIMAÇÃO QUE PISCA */}
           <button 
-            style={{
-              background: isAdmin ? 'white' : '#333',
-              border: 'none',
-              fontSize: '1.5rem',
-              cursor: 'pointer',
-              padding: '8px 12px',
-              borderRadius: '8px',
-              color: isAdmin ? '#667eea' : 'white',
-              fontWeight: 'bold',
-              display: 'block'
-            }}
+            className="hamburger-btn-custom"
             onClick={() => setDrawerAberto(!drawerAberto)}
           >
-            ☰
+            <span className="hamburger-line-custom"></span>
+            <span className="hamburger-line-custom"></span>
+            <span className="hamburger-line-custom"></span>
           </button>
         </div>
       </header>

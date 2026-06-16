@@ -140,7 +140,6 @@ const AdminDashboard = () => {
                 return (
                     <div className="tab-content">
                         <div className="form-section">
-                            <div className="form-group"><label>Hero Título</label><input type="text" name="hero_titulo" value={config?.hero_titulo || ""} onChange={handleChange} /></div>
                             <h2>Redes Sociais</h2>
                             <div className="form-group"><label>Facebook</label><input type="url" name="facebook" value={config?.facebook || ''} onChange={handleChange} /></div>
                             <div className="form-group"><label>Instagram</label><input type="url" name="instagram" value={config?.instagram || ''} onChange={handleChange} /></div>
@@ -152,7 +151,6 @@ const AdminDashboard = () => {
                 return (
                     <div className="tab-content">
                         <div className="form-section">
-                            <div className="form-group"><label>Hero Título</label><input type="text" name="hero_titulo" value={config?.hero_titulo || ""} onChange={handleChange} /></div>
                             <h2>Seção Sobre</h2>
                             <div className="form-group"><label>Título</label><input type="text" name="sobre_titulo" value={config?.sobre_titulo || 'Sobre a LLRH'} onChange={handleChange} /></div>
                             <div className="form-group"><label>Conteúdo Principal</label><RichTextEditor value={config?.sobre_conteudo || ''} onChange={(html) => handleRichTextChange('sobre_conteudo', html)} placeholder="Digite o conteúdo..." /></div>
@@ -170,7 +168,6 @@ const AdminDashboard = () => {
                 return (
                     <div className="tab-content">
                         <div className="form-section">
-                            <div className="form-group"><label>Hero Título</label><input type="text" name="hero_titulo" value={config?.hero_titulo || ""} onChange={handleChange} /></div>
                             <h2>Upload de Imagens</h2>
                             <div className="form-group image-upload-group"><label>Logo</label><div className="image-upload-area"><input type="file" accept="image/*" onChange={(e) => handleImageUpload('logo', e.target.files[0])} disabled={uploading} />{config?.logo_url && <div className="image-preview-mini"><img src={config.logo_url} alt="Logo" /></div>}</div></div>
                             <div className="form-group image-upload-group"><label>Hero</label><div className="image-upload-area"><input type="file" accept="image/*" onChange={(e) => handleImageUpload('hero', e.target.files[0])} disabled={uploading} />{config?.logo_hero_url && <div className="image-preview-mini"><img src={config.logo_hero_url} alt="Hero" /></div>}</div></div>
@@ -183,7 +180,6 @@ const AdminDashboard = () => {
                 return (
                     <div className="tab-content">
                         <div className="form-section">
-                            <div className="form-group"><label>Hero Título</label><input type="text" name="hero_titulo" value={config?.hero_titulo || ""} onChange={handleChange} /></div>
                             <h2>SEO</h2>
                             <div className="form-group"><label>Meta Title</label><input type="text" name="meta_title" value={config?.meta_title || ''} onChange={handleChange} /></div>
                             <div className="form-group"><label>Meta Description</label><textarea name="meta_description" rows="3" value={config?.meta_description || ''} onChange={handleChange} /></div>
@@ -195,7 +191,6 @@ const AdminDashboard = () => {
                 return (
                     <div className="tab-content">
                         <div className="form-section">
-                            <div className="form-group"><label>Hero Título</label><input type="text" name="hero_titulo" value={config?.hero_titulo || ""} onChange={handleChange} /></div>
                             <h2>📖 Nossa História</h2>
                             
                             <div className="historia-grid">
