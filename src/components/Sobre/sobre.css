@@ -1,0 +1,92 @@
+.sobre {
+  padding: 60px 0;
+  background: white;
+}
+
+.sobre-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sobre-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sobre-header h2 {
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.sobre-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+.sobre-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sobre-texto {
+  text-align: justify;
+  line-height: 1.8;
+  color: #4a5568;
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+
+.sobre-valores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.valor-card {
+  text-align: center;
+  padding: 24px 20px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.valor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.valor-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.valor-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+}
+
+.valor-card p {
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .sobre { padding: 40px 0; }
+  .sobre-header h2 { font-size: 1.5rem; }
+  .sobre-valores-grid { grid-template-columns: 1fr; gap: 20px; }
+}

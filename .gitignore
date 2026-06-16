@@ -1,0 +1,65 @@
+# Dependências
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testes
+/coverage/
+
+# Produção
+/build
+/dist
+
+# Arquivos do sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Vite
+.vite
+vite.config.js.timestamp-*
+
+# Cache
+.cache
+*.cache
+
+# Arquivos de backup
+*.bak
+*.backup
+
+# Relatórios
+coverage/
+.nyc_output/
+
+# Dependências específicas
+package-lock.json
+yarn.lock

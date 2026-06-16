@@ -1,0 +1,87 @@
+.servicos {
+  padding: 60px 0;
+  background: white;
+}
+
+.servicos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.servicos-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.servicos-header h2 {
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.servicos-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+.servicos-header p {
+  font-size: 1rem;
+  color: #4a5568;
+  margin-top: 15px;
+}
+
+.servicos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.servico-card {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 30px 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid #eef2f7;
+}
+
+.servico-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+}
+
+.servico-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.servico-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+}
+
+.servico-card p {
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .servicos { padding: 40px 0; }
+  .servicos-header h2 { font-size: 1.5rem; }
+  .servicos-grid { gap: 20px; }
+  .servico-card { padding: 24px 20px; }
+}

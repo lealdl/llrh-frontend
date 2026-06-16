@@ -1,0 +1,138 @@
+.vagas {
+  padding: 60px 0;
+  background: white;
+}
+
+.vagas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.vagas-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.vagas-header h2 {
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.vagas-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+.vagas-header p {
+  font-size: 1rem;
+  color: #4a5568;
+  margin-top: 15px;
+}
+
+.vagas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.vaga-card {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  border: 1px solid #eef2f7;
+}
+
+.vaga-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+}
+
+.vaga-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.vaga-card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.vaga-tipo {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.tipo-clt {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.tipo-pj {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.vaga-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.vaga-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #4a5568;
+}
+
+.vaga-descricao {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.vaga-btn-candidatar {
+  width: 100%;
+  padding: 10px;
+  background: #e9ecef;
+  color: #6c757d;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vaga-card:hover .vaga-btn-candidatar {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .vagas { padding: 40px 0; }
+  .vagas-header h2 { font-size: 1.5rem; }
+  .vagas-grid { gap: 20px; }
+}

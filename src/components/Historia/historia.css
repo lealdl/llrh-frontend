@@ -1,0 +1,59 @@
+.historia {
+  padding: 60px 0;
+  background: white;
+  scroll-margin-top: 80px;
+}
+
+.historia-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.historia-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.historia-header h2 {
+  font-size: 2rem;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.historia-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+}
+
+.historia-ano {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #667eea;
+  background: #f0f0ff;
+  padding: 4px 16px;
+  border-radius: 20px;
+}
+
+.historia-content {
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.8;
+  color: #4a5568;
+  font-family: 'Nunito', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .historia { padding: 40px 0; }
+  .historia-header h2 { font-size: 1.5rem; }
+}
