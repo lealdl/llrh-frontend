@@ -7,35 +7,52 @@ const Historia = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const carregar = async () => {
+    const carregarConfig = async () => {
       try {
         const data = await api.getConfiguracoes();
         if (data.success && data.data) {
           setConfig(data.data);
         }
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        console.error('Erro:', error);
       } finally {
         setLoading(false);
       }
     };
-    carregar();
-    
-    window.addEventListener('historiaUpdated', carregar);
-    return () => window.removeEventListener('historiaUpdated', carregar);
+    carregarConfig();
   }, []);
 
   if (loading) return null;
-  if (!config?.historia_conteudo) return null;
+
+  const titulo = config?.historia_titulo || 'Nossa História';
+  const conteudo = config?.historia_conteudo || 'Conteúdo da história em breve...';
+  const imagem = config?.historia_imagem;
+  const fundacao = config?.historia_fundacao || '2020';
 
   return (
     <section id="historia" className="historia">
       <div className="historia-container">
         <div className="historia-header">
-          <h2>{config.historia_titulo || 'Nossa História'}</h2>
-          <span className="historia-ano">Desde {config.historia_fundacao || '2020'}</span>
+          <h2>{titulo}</h2>
+          <p>Conheça a trajetória da LLRH</p>
         </div>
-        <div className="historia-content" dangerouslySetInnerHTML={{ __html: config.historia_conteudo }} />
+
+        <div className="historia-content">
+          {imagem && (
+            <div className="historia-imagem-wrapper">
+              <img src={imagem} alt="Nossa História" className="historia-imagem" />
+              {fundacao && (
+                <div className="historia-fundacao">
+                  <span>Desde {fundacao}</span>
+                </div>
+              )}
+            </div>
+          )}
+          <div 
+            className="historia-texto"
+            dangerouslySetInnerHTML={{ __html: conteudo }}
+          />
+        </div>
       </div>
     </section>
   );

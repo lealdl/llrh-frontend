@@ -19,7 +19,7 @@ const Servicos = () => {
           servicosData = data;
         }
         
-        // 🔥 FILTRA APENAS SERVIÇOS ATIVOS (ativo = 1)
+        // Filtra apenas serviços ativos
         const servicosAtivos = servicosData.filter(servico => {
           const ativo = parseInt(servico.ativo);
           return ativo === 1;

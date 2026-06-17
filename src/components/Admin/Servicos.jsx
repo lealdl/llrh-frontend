@@ -7,6 +7,7 @@ const ServicosAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [mostrarForm, setMostrarForm] = useState(false);
   const [editando, setEditando] = useState(null);
+  const [toast, setToast] = useState(null);
   const [formData, setFormData] = useState({
     titulo: '',
     icone: '🎯',
@@ -15,6 +16,11 @@ const ServicosAdmin = () => {
     ativo: 1
   });
 
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
+
   const carregarServicos = async () => {
     setLoading(true);
     try {
@@ -22,10 +28,8 @@ const ServicosAdmin = () => {
       console.log('📦 Serviços recebidos (RAW):', response);
       
       if (response.success && response.data) {
-        // Garantir que cada serviço tenha os campos corretos
         const dadosTratados = response.data.map(servico => ({
           ...servico,
-          // Se ativo não veio, assume que é ativo (1)
           ativo: servico.ativo !== undefined ? parseInt(servico.ativo) : 1,
           ordem: servico.ordem !== undefined ? parseInt(servico.ordem) : 0,
           icone: servico.icone || '📌',
@@ -51,7 +55,9 @@ const ServicosAdmin = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === 'checkbox') {
-      setFormData(prev => ({ ...prev, [name]: checked ? 1 : 0 }));
+      const novoValor = checked ? 1 : 0;
+      console.log(`📝 Checkbox ${name} alterado para: ${novoValor}`);
+      setFormData(prev => ({ ...prev, [name]: novoValor }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -63,36 +69,42 @@ const ServicosAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     
     const dadosEnviar = {
-      ...formData,
-      ativo: parseInt(formData.ativo) || 0
+      titulo: formData.titulo,
+      icone: formData.icone,
+      descricao: formData.descricao,
+      ordem: parseInt(formData.ordem) || 0,
+      ativo: formData.ativo === 1 ? 1 : 0
     };
     
-    console.log('📤 Enviando dados:', dadosEnviar);
+    console.log('📤 Enviando dados para API:', dadosEnviar);
     
     try {
       let response;
       if (editando) {
+        console.log(`🔄 Atualizando serviço ID: ${editando}`);
         response = await updateServico(editando, dadosEnviar);
       } else {
+        console.log('➕ Criando novo serviço');
         response = await createServico(dadosEnviar);
       }
       
-      console.log('📥 Resposta:', response);
+      console.log('📥 Resposta da API:', response);
       
       if (response && response.success) {
-        alert(editando ? '✅ Serviço atualizado!' : '✅ Serviço criado!');
+        showToast(editando ? '✅ Serviço atualizado com sucesso!' : '✅ Serviço criado com sucesso!');
         setMostrarForm(false);
         setEditando(null);
         setFormData({ titulo: '', icone: '🎯', descricao: '', ordem: 0, ativo: 1 });
         await carregarServicos();
       } else {
-        alert('❌ Erro: ' + (response?.message || 'Falha ao salvar'));
+        showToast('❌ ' + (response?.message || 'Falha ao salvar'), 'error');
       }
     } catch (error) {
-      console.error('❌ Erro:', error);
-      alert('❌ Erro de conexão');
+      console.error('❌ Erro detalhado:', error);
+      showToast('❌ Erro de conexão: ' + error.message, 'error');
     }
   };
 
@@ -114,14 +126,14 @@ const ServicosAdmin = () => {
     try {
       const response = await deleteServico(id);
       if (response.success) {
-        alert('✅ Serviço excluído!');
+        showToast('✅ Serviço excluído com sucesso!');
         await carregarServicos();
       } else {
-        alert('❌ Erro ao excluir');
+        showToast('❌ Erro ao excluir serviço', 'error');
       }
     } catch (error) {
       console.error('Erro:', error);
-      alert('❌ Erro de conexão');
+      showToast('❌ Erro de conexão', 'error');
     }
   };
 
@@ -135,6 +147,14 @@ const ServicosAdmin = () => {
 
   return (
     <div className="servicos-container">
+      {/* Toast */}
+      {toast && (
+        <div className={`servico-toast ${toast.type}`}>
+          <span>{toast.message}</span>
+          <button className="toast-close" onClick={() => setToast(null)}>×</button>
+        </div>
+      )}
+
       <div className="servicos-header">
         <h2>📋 Serviços</h2>
         <button type="button" className="btn-novo-servico" onClick={() => setMostrarForm(true)}>
@@ -143,7 +163,7 @@ const ServicosAdmin = () => {
       </div>
 
       {mostrarForm && (
-        <form onSubmit={handleSubmit} className="servico-form">
+        <div className="servico-form">
           <h3>{editando ? '✏️ Editar Serviço' : '➕ Novo Serviço'}</h3>
           <div className="servico-form-grid">
             <div className="form-group">
@@ -186,12 +206,12 @@ const ServicosAdmin = () => {
             </div>
             <div className="servico-form-actions">
               <button type="button" className="btn-cancelar-servico" onClick={handleCancel}>Cancelar</button>
-              <button type="submit" className="btn-salvar-servico">
+              <button type="button" className="btn-salvar-servico" onClick={handleSubmit}>
                 {editando ? '💾 Atualizar' : '💾 Criar'}
               </button>
             </div>
           </div>
-        </form>
+        </div>
       )}
 
       <div className="servicos-table-wrapper">
@@ -210,12 +230,9 @@ const ServicosAdmin = () => {
             </thead>
             <tbody>
               {servicos.map((servico, index) => {
-                // Se ativo for undefined, assume que é ativo (1)
                 const ativoNum = servico.ativo !== undefined ? parseInt(servico.ativo) : 1;
                 const isAtivo = ativoNum === 1;
                 const iconeExibido = servico.icone || '📌';
-                
-                console.log(`🔍 ${servico.titulo}: ativo=${servico.ativo} -> isAtivo=${isAtivo}`);
                 
                 return (
                   <tr key={servico.id || index}>

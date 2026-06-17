@@ -36,10 +36,6 @@ const Vagas = () => {
     }
   ];
 
-  const handleCandidatar = () => {
-    alert('🚧 Funcionalidade em desenvolvimento. Em breve estará disponível!');
-  };
-
   return (
     <section id="vagas" className="vagas">
       <div className="vagas-container">
@@ -51,6 +47,7 @@ const Vagas = () => {
         <div className="vagas-grid">
           {vagas.map(vaga => (
             <div key={vaga.id} className="vaga-card">
+              <span className="vaga-badge">🔒 Em breve</span>
               <div className="vaga-card-header">
                 <h3>{vaga.titulo}</h3>
                 <span className={`vaga-tipo ${vaga.tipo === 'PJ' ? 'tipo-pj' : 'tipo-clt'}`}>
@@ -71,11 +68,8 @@ const Vagas = () => {
               
               <p className="vaga-descricao">{vaga.descricao}</p>
               
-              <button 
-                className="vaga-btn-candidatar"
-                onClick={handleCandidatar}
-              >
-                🔒 Em desenvolvimento
+              <button className="vaga-btn-candidatar" disabled>
+                🔒 Em breve
               </button>
             </div>
           ))}

@@ -1,5 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/api-llrh';
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost';
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL || 'http://localhost/api-llrh';
 
 console.log('🌐 API URL:', API_URL);
 console.log('🖼️ IMAGE BASE URL:', IMAGE_BASE_URL);
@@ -136,7 +136,6 @@ export const createServico = async (servico) => {
 
 export const updateServico = async (id, servico) => {
     try {
-        console.log('🔄 updateServico chamado com:', { id, servico });
         const token = localStorage.getItem('token');
         const response = await fetch(`${API_URL}/admin/servicos/${id}`, {
             method: 'PUT',
@@ -146,12 +145,10 @@ export const updateServico = async (id, servico) => {
             },
             body: JSON.stringify(servico)
         });
-        const data = await response.json();
-        console.log('📥 Resposta do update:', data);
-        return data;
+        return await response.json();
     } catch (error) {
-        console.error('Erro no updateServico:', error);
-        return { success: false, message: error.message };
+        console.error('Erro:', error);
+        return { success: false };
     }
 };
 

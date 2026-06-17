@@ -114,6 +114,26 @@ const Header = ({ onLogout }) => {
             <span className="logo-text">{isAdmin ? 'Painel Administrativo' : 'LLRH - Atração de Talentos'}</span>
           </div>
           
+          {/* Menu Desktop */}
+          {!isAdmin && (
+            <nav className="nav-desktop">
+              <a onClick={() => scrollToSection('home')}>Início</a>
+              <a onClick={() => scrollToSection('sobre')}>Sobre</a>
+              <a onClick={() => scrollToSection('historia')}>Nossa História</a>
+              <a onClick={() => scrollToSection('servicos')}>Serviços</a>
+              <a onClick={() => scrollToSection('vagas')}>Vagas</a>
+              <a onClick={() => scrollToSection('contato')}>Contato</a>
+              <a className="admin-link" onClick={handleAdminClick}>Área Admin</a>
+            </nav>
+          )}
+          
+          {isAdmin && (
+            <nav className="nav-desktop nav-admin">
+              <a onClick={() => window.location.reload()}>📊 Dashboard</a>
+              <a className="logout-link" onClick={handleLogout}>🚪 Sair</a>
+            </nav>
+          )}
+          
           <button 
             className="hamburger-btn-custom"
             onClick={() => setDrawerAberto(!drawerAberto)}

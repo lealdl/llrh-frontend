@@ -9,6 +9,7 @@ const Hero = () => {
   const carregarHero = useCallback(async () => {
     try {
       const data = await api.getConfiguracoes();
+      console.log('📦 Configurações do Hero:', data);
       if (data.success && data.data) {
         setConfig(data.data);
       }
@@ -35,13 +36,6 @@ const Hero = () => {
     };
   }, [carregarHero]);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   if (loading) {
     return (
       <section id="home" className="hero">
@@ -56,6 +50,8 @@ const Hero = () => {
   const descricao = config?.hero_descricao || 'Conectamos empresas aos profissionais ideais e transformamos carreiras através de soluções inovadoras em Recursos Humanos.';
   const nomeSite = config?.nome_site || 'LLRH ATRAÇÃO DE TALENTOS';
   const imagemHero = config?.logo_hero_url;
+
+  console.log('🖼️ URL da imagem:', imagemHero);
 
   return (
     <section id="home" className="hero">
@@ -72,7 +68,11 @@ const Hero = () => {
               src={imagemHero} 
               alt="Hero" 
               className="hero-img"
-              onError={(e) => e.target.style.display = 'none'}
+              onError={(e) => {
+                console.error('❌ Erro ao carregar imagem:', imagemHero);
+                e.target.style.display = 'none';
+              }}
+              onLoad={() => console.log('✅ Imagem carregada com sucesso!')}
             />
           ) : (
             <div className="hero-placeholder">

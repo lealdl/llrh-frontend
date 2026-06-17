@@ -690,3 +690,55 @@
     text-align: center;
   }
 }
+
+/* ===== TOAST PARA SERVIÇOS ===== */
+.servico-toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  padding: 14px 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 9999;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  animation: slideInRight 0.3s ease;
+}
+
+.servico-toast.success {
+  background: #10b981;
+}
+
+.servico-toast.error {
+  background: #ef4444;
+}
+
+.servico-toast .toast-close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0.8;
+}
+
+.servico-toast .toast-close:hover {
+  opacity: 1;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

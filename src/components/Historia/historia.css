@@ -1,7 +1,6 @@
 .historia {
-  padding: 60px 0;
+  padding: 80px 0;
   background: white;
-  scroll-margin-top: 80px;
 }
 
 .historia-container {
@@ -12,13 +11,13 @@
 
 .historia-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .historia-header h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #1a1a2e;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
   position: relative;
   display: inline-block;
 }
@@ -35,25 +34,108 @@
   border-radius: 2px;
 }
 
-.historia-ano {
-  display: inline-block;
-  margin-top: 10px;
-  font-size: 0.85rem;
-  color: #667eea;
-  background: #f0f0ff;
-  padding: 4px 16px;
-  border-radius: 20px;
+.historia-header p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 16px;
 }
 
 .historia-content {
   max-width: 900px;
   margin: 0 auto;
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.historia-imagem-wrapper {
+  float: left;
+  margin: 0 30px 20px 0;
+  max-width: 300px;
+  position: relative;
+}
+
+.historia-imagem {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  display: block;
+}
+
+.historia-fundacao {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.historia-texto {
+  font-size: 1.05rem;
   line-height: 1.8;
-  color: #4a5568;
-  font-family: 'Nunito', sans-serif;
+  color: #444;
+  text-align: justify;
+}
+
+.historia-texto p {
+  margin-bottom: 1rem;
+}
+
+.historia-texto strong {
+  color: #1a1a2e;
+}
+
+.historia-texto::after {
+  content: '';
+  display: table;
+  clear: both;
 }
 
 @media (max-width: 768px) {
-  .historia { padding: 40px 0; }
-  .historia-header h2 { font-size: 1.5rem; }
+  .historia {
+    padding: 60px 0;
+  }
+
+  .historia-header h2 {
+    font-size: 2rem;
+  }
+
+  .historia-content {
+    padding: 24px;
+  }
+
+  .historia-imagem-wrapper {
+    float: none;
+    margin: 0 auto 20px auto;
+    max-width: 200px;
+  }
+
+  .historia-texto {
+    font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .historia-fundacao {
+    font-size: 0.75rem;
+    padding: 6px 16px;
+    bottom: -8px;
+    right: -8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .historia-imagem-wrapper {
+    max-width: 150px;
+  }
+
+  .historia-texto {
+    font-size: 0.9rem;
+  }
 }

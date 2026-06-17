@@ -269,21 +269,14 @@ const AdminDashboard = () => {
                 <button className={`tab-btn ${activeTab === 'historia' ? 'active' : ''}`} onClick={() => setActiveTab('historia')}>Nossa História</button>
             </div>
             
-            {/* Formulário apenas para abas que precisam salvar configurações */}
-            {activeTab === 'geral' || activeTab === 'redes' || activeTab === 'sobre' || activeTab === 'imagens' || activeTab === 'seo' || activeTab === 'historia' ? (
-                <form onSubmit={handleSubmit} className="admin-form">
-                    {renderTabContent()}
-                    <div className="form-actions">
-                        <button type="submit" disabled={saving}>
-                            {saving ? '💾 Salvando...' : '💾 Salvar Todas as Configurações'}
-                        </button>
-                    </div>
-                </form>
-            ) : (
-                <div className="admin-form">
-                    {renderTabContent()}
+            <form onSubmit={handleSubmit} className="admin-form">
+                {renderTabContent()}
+                <div className="form-actions">
+                    <button type="submit" disabled={saving}>
+                        {saving ? '💾 Salvando...' : '💾 Salvar Todas as Configurações'}
+                    </button>
                 </div>
-            )}
+            </form>
         </div>
     );
 };

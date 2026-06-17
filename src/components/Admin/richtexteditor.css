@@ -1,0 +1,365 @@
+.rich-text-editor-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  border: 2px solid #e2e5f0;
+  transition: border-color 0.3s ease;
+}
+
+.rich-text-editor-wrapper:focus-within {
+  border-color: #667eea;
+}
+
+/* Toolbar */
+.quill-editor .ql-toolbar {
+  background: #f8f9fa;
+  border: none;
+  border-bottom: 1px solid #e2e5f0;
+  border-radius: 8px 8px 0 0;
+  padding: 8px 12px;
+  flex-wrap: wrap;
+}
+
+.quill-editor .ql-toolbar .ql-formats {
+  margin-right: 6px;
+}
+
+.quill-editor .ql-toolbar button {
+  border-radius: 4px;
+  padding: 4px 8px;
+  transition: all 0.2s ease;
+}
+
+.quill-editor .ql-toolbar button:hover {
+  background: #e9ecef;
+}
+
+.quill-editor .ql-toolbar button.ql-active {
+  background: #667eea;
+  color: white;
+}
+
+.quill-editor .ql-toolbar .ql-picker {
+  border-radius: 4px;
+}
+
+.quill-editor .ql-toolbar .ql-picker:hover {
+  background: #e9ecef;
+}
+
+/* Seletor de fontes */
+.ql-snow .ql-picker.ql-font {
+  width: 120px !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label {
+  width: 120px !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-options {
+  width: 180px !important;
+}
+
+/* Seletor de tamanho */
+.ql-snow .ql-picker.ql-size {
+  width: 80px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label {
+  width: 80px !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-options {
+  width: 100px !important;
+}
+
+/* Exibir nomes bonitos no dropdown - FONTES */
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Arial"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Arial"]::before {
+  content: 'Arial' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Arial-Black"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Arial-Black"]::before {
+  content: 'Arial Black' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Comic-Sans-MS"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Comic-Sans-MS"]::before {
+  content: 'Comic Sans MS' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Courier-New"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Courier-New"]::before {
+  content: 'Courier New' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Georgia"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Georgia"]::before {
+  content: 'Georgia' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Impact"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Impact"]::before {
+  content: 'Impact' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Tahoma"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Tahoma"]::before {
+  content: 'Tahoma' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Times-New-Roman"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Times-New-Roman"]::before {
+  content: 'Times New Roman' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Trebuchet-MS"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Trebuchet-MS"]::before {
+  content: 'Trebuchet MS' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Verdana"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Verdana"]::before {
+  content: 'Verdana' !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Poppins"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Poppins"]::before {
+  content: 'Poppins' !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Nunito"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Nunito"]::before {
+  content: 'Nunito' !important;
+  font-family: 'Nunito', sans-serif !important;
+}
+
+/* Exibir tamanhos no dropdown */
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="8"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="8"]::before {
+  content: '8' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="10"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="10"]::before {
+  content: '10' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12"]::before {
+  content: '12' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14"]::before {
+  content: '14' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16"]::before {
+  content: '16' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18"]::before {
+  content: '18' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20"]::before {
+  content: '20' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24"]::before {
+  content: '24' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="28"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="28"]::before {
+  content: '28' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="32"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="32"]::before {
+  content: '32' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="36"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="36"]::before {
+  content: '36' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="48"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="48"]::before {
+  content: '48' !important;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="72"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="72"]::before {
+  content: '72' !important;
+}
+
+/* Classes para aplicar as fontes no texto */
+.ql-font-Arial {
+  font-family: Arial, sans-serif !important;
+}
+.ql-font-Arial-Black {
+  font-family: 'Arial Black', sans-serif !important;
+}
+.ql-font-Comic-Sans-MS {
+  font-family: 'Comic Sans MS', cursive !important;
+}
+.ql-font-Courier-New {
+  font-family: 'Courier New', monospace !important;
+}
+.ql-font-Georgia {
+  font-family: Georgia, serif !important;
+}
+.ql-font-Impact {
+  font-family: Impact, sans-serif !important;
+}
+.ql-font-Tahoma {
+  font-family: Tahoma, sans-serif !important;
+}
+.ql-font-Times-New-Roman {
+  font-family: 'Times New Roman', serif !important;
+}
+.ql-font-Trebuchet-MS {
+  font-family: 'Trebuchet MS', sans-serif !important;
+}
+.ql-font-Verdana {
+  font-family: Verdana, sans-serif !important;
+}
+.ql-font-Poppins {
+  font-family: 'Poppins', sans-serif !important;
+}
+.ql-font-Nunito {
+  font-family: 'Nunito', sans-serif !important;
+}
+
+/* Classes para tamanhos */
+.ql-size-8 { font-size: 8px !important; }
+.ql-size-10 { font-size: 10px !important; }
+.ql-size-12 { font-size: 12px !important; }
+.ql-size-14 { font-size: 14px !important; }
+.ql-size-16 { font-size: 16px !important; }
+.ql-size-18 { font-size: 18px !important; }
+.ql-size-20 { font-size: 20px !important; }
+.ql-size-24 { font-size: 24px !important; }
+.ql-size-28 { font-size: 28px !important; }
+.ql-size-32 { font-size: 32px !important; }
+.ql-size-36 { font-size: 36px !important; }
+.ql-size-48 { font-size: 48px !important; }
+.ql-size-72 { font-size: 72px !important; }
+
+/* Container do editor */
+.quill-editor .ql-container {
+  border: none;
+  font-size: 0.95rem;
+  font-family: inherit;
+  min-height: 250px;
+}
+
+.quill-editor .ql-editor {
+  min-height: 250px;
+  padding: 16px 20px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.quill-editor .ql-editor h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 1rem 0 0.5rem;
+}
+
+.quill-editor .ql-editor h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 1rem 0 0.5rem;
+}
+
+.quill-editor .ql-editor h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0.8rem 0 0.4rem;
+}
+
+.quill-editor .ql-editor p {
+  margin: 0 0 0.8rem 0;
+}
+
+.quill-editor .ql-editor ul,
+.quill-editor .ql-editor ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.quill-editor .ql-editor li {
+  margin: 0.3rem 0;
+}
+
+.quill-editor .ql-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+.quill-editor .ql-editor blockquote {
+  border-left: 4px solid #667eea;
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+  color: #555;
+  font-style: italic;
+}
+
+.quill-editor .ql-editor a {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+.editor-footer {
+  padding: 8px 16px;
+  background: #f8f9fa;
+  border-top: 1px solid #e2e5f0;
+  font-size: 0.8rem;
+  color: #999;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .quill-editor .ql-toolbar {
+    padding: 6px 8px;
+  }
+
+  .quill-editor .ql-toolbar .ql-formats {
+    margin-right: 4px;
+  }
+
+  .quill-editor .ql-toolbar button {
+    padding: 2px 6px;
+    font-size: 0.8rem;
+  }
+
+  .quill-editor .ql-editor {
+    min-height: 180px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .editor-footer {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+  }
+
+  .ql-snow .ql-picker.ql-font {
+    width: 80px !important;
+  }
+
+  .ql-snow .ql-picker.ql-font .ql-picker-label {
+    width: 80px !important;
+  }
+
+  .ql-snow .ql-picker.ql-size {
+    width: 60px !important;
+  }
+
+  .ql-snow .ql-picker.ql-size .ql-picker-label {
+    width: 60px !important;
+  }
+}

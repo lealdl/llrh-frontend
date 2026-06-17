@@ -1,5 +1,5 @@
 .servicos {
-  padding: 60px 0;
+  padding: 20px 0 60px 0;
   background: white;
 }
 
@@ -12,12 +12,15 @@
 .servicos-header {
   text-align: center;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .servicos-header h2 {
-  font-size: 2rem;
   color: #1a1a2e;
-  margin-bottom: 10px;
+  margin: 0;
   position: relative;
   display: inline-block;
 }
@@ -25,7 +28,7 @@
 .servicos-header h2::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
@@ -37,12 +40,12 @@
 .servicos-header p {
   font-size: 1rem;
   color: #4a5568;
-  margin-top: 15px;
+  margin: 14px 0 0 0;
 }
 
 .servicos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
 }
 
@@ -57,31 +60,31 @@
 
 .servico-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
   border-color: #667eea;
 }
 
 .servico-icon {
-  font-size: 3rem;
-  margin-bottom: 20px;
+  font-size: 2.5rem;
+  margin-bottom: 16px;
 }
 
 .servico-card h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #1a1a2e;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .servico-card p {
   font-size: 0.9rem;
-  color: #4a5568;
-  line-height: 1.6;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
-  .servicos { padding: 40px 0; }
-  .servicos-header h2 { font-size: 1.5rem; }
+  .servicos { padding: 15px 0 40px 0; }
+  .servicos-header p { font-size: 0.9rem; }
   .servicos-grid { gap: 20px; }
-  .servico-card { padding: 24px 20px; }
 }

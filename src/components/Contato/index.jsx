@@ -50,7 +50,8 @@ const Contato = () => {
     }
   };
 
-  const telefone = config?.telefone || '(11) 4000-4443';
+  const telefone = config?.telefone || '(11) 4000-4433';
+  const whatsapp = config?.whatsapp || '(11) 90000-0000';
   const email = config?.email_contato || 'contato@llrh.com.br';
   const horario = config?.horario_funcionamento || 'Segunda a Sexta: 9h às 18h';
   const imagem = config?.contato_imagem;
@@ -97,8 +98,13 @@ const Contato = () => {
             )}
             <div className="contato-info">
               <h3>📞 Contato</h3>
-              <p>Telefone: {telefone}</p>
-              <p>Email: {email}</p>
+              <div className="contato-linha">
+                <span>Telefone: {telefone}</span>
+                <span className="separator">|</span>
+                <span>WhatsApp: {whatsapp}</span>
+                <span className="separator">|</span>
+                <span>Email: {email}</span>
+              </div>
             </div>
             <div className="contato-info">
               <h3>🕒 Horário</h3>
