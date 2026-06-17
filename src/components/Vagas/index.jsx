@@ -1,40 +1,33 @@
+import { useState, useEffect } from 'react';
+import { getVagas } from '../../services/api';
 import './vagas.css';
 
 const Vagas = () => {
-  const vagas = [
-    {
-      id: 1,
-      titulo: 'Desenvolvedor(a) React Pleno',
-      localizacao: 'Remoto',
-      salario: 'R$ 7.000 - R$ 9.000',
-      tipo: 'CLT',
-      descricao: 'Desenvolvimento de aplicações web com React.js'
-    },
-    {
-      id: 2,
-      titulo: 'Analista de Recursos Humanos Sênior',
-      localizacao: 'São Paulo - SP',
-      salario: 'R$ 6.000 - R$ 8.000',
-      tipo: 'CLT',
-      descricao: 'Gestão de processos de RH e recrutamento'
-    },
-    {
-      id: 3,
-      titulo: 'UX/UI Designer',
-      localizacao: 'Remoto',
-      salario: 'R$ 5.500 - R$ 7.500',
-      tipo: 'PJ',
-      descricao: 'Criação de interfaces e experiência do usuário'
-    },
-    {
-      id: 4,
-      titulo: 'DevOps Engineer',
-      localizacao: 'Híbrido - SP',
-      salario: 'R$ 8.000 - R$ 12.000',
-      tipo: 'CLT',
-      descricao: 'Infraestrutura e automação de deploys'
-    }
-  ];
+  const [vagas, setVagas] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const carregarVagas = async () => {
+      try {
+        const response = await getVagas();
+        console.log('📦 Vagas do banco:', response);
+        if (response.success && response.data) {
+          setVagas(response.data);
+        } else {
+          setVagas([]);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar vagas:', error);
+        setVagas([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    carregarVagas();
+  }, []);
+
+  if (loading) return null;
+  if (vagas.length === 0) return null;
 
   return (
     <section id="vagas" className="vagas">

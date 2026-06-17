@@ -3,6 +3,7 @@ import { getConfiguracoes, updateConfiguracoes } from '../../services/api';
 import RichTextEditor from './RichTextEditor';
 import ServicosAdmin from './Servicos';
 import ContatoAdmin from './Contato';
+import VagasAdmin from './Vagas';
 import './admin.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/api-llrh';
@@ -164,6 +165,8 @@ const AdminDashboard = () => {
                 return <ServicosAdmin />;
             case 'contato':
                 return <ContatoAdmin config={config} onConfigUpdate={handleRichTextChange} showMessage={showMessage} />;
+            case 'vagas':
+                return <VagasAdmin />;
             case 'imagens':
                 return (
                     <div className="tab-content">
@@ -264,6 +267,7 @@ const AdminDashboard = () => {
                 <button className={`tab-btn ${activeTab === 'sobre' ? 'active' : ''}`} onClick={() => setActiveTab('sobre')}>Sobre</button>
                 <button className={`tab-btn ${activeTab === 'servicos' ? 'active' : ''}`} onClick={() => setActiveTab('servicos')}>Serviços</button>
                 <button className={`tab-btn ${activeTab === 'contato' ? 'active' : ''}`} onClick={() => setActiveTab('contato')}>Contato</button>
+                <button className={`tab-btn ${activeTab === 'vagas' ? 'active' : ''}`} onClick={() => setActiveTab('vagas')}>Vagas</button>
                 <button className={`tab-btn ${activeTab === 'imagens' ? 'active' : ''}`} onClick={() => setActiveTab('imagens')}>Imagens</button>
                 <button className={`tab-btn ${activeTab === 'seo' ? 'active' : ''}`} onClick={() => setActiveTab('seo')}>SEO</button>
                 <button className={`tab-btn ${activeTab === 'historia' ? 'active' : ''}`} onClick={() => setActiveTab('historia')}>Nossa História</button>

@@ -214,3 +214,84 @@ export default {
     login,
     enviarContato
 };
+
+// ========== VAGAS ==========
+export const getVagas = async () => {
+    try {
+        const response = await fetch(`${API_URL}/vagas`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro ao buscar vagas:', error);
+        return { success: false, data: [] };
+    }
+};
+
+export const getAdminVagas = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/admin/vagas`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        console.log('getAdminVagas resposta:', data);
+        return data;
+    } catch (error) {
+        console.error('Erro:', error);
+        return { success: false, data: [] };
+    }
+};
+
+export const createVaga = async (vaga) => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/admin/vagas`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(vaga)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Erro:', error);
+        return { success: false };
+    }
+};
+
+export const updateVaga = async (id, vaga) => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/admin/vagas/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(vaga)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Erro:', error);
+        return { success: false };
+    }
+};
+
+export const deleteVaga = async (id) => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/admin/vagas/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Erro:', error);
+        return { success: false };
+    }
+};
