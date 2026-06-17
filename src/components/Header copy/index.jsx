@@ -9,9 +9,6 @@ const Header = ({ onLogout }) => {
   const [isAdmin, setIsAdmin] = useState(() => {
     return new URLSearchParams(window.location.search).get('admin') === 'true';
   });
-  const [temaEscuro, setTemaEscuro] = useState(() => {
-    return localStorage.getItem('tema') === 'escuro';
-  });
 
   useEffect(() => {
     const carregarLogo = async () => {
@@ -33,20 +30,6 @@ const Header = ({ onLogout }) => {
     window.addEventListener('logoUploaded', handleLogoUploaded);
     return () => window.removeEventListener('logoUploaded', handleLogoUploaded);
   }, []);
-
-  // Aplicar tema
-  useEffect(() => {
-    if (temaEscuro) {
-      document.body.classList.add('tema-escuro');
-    } else {
-      document.body.classList.remove('tema-escuro');
-    }
-    localStorage.setItem('tema', temaEscuro ? 'escuro' : 'claro');
-  }, [temaEscuro]);
-
-  const alternarTema = () => {
-    setTemaEscuro(!temaEscuro);
-  };
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -149,17 +132,6 @@ const Header = ({ onLogout }) => {
               <a onClick={() => window.location.reload()}>📊 Dashboard</a>
               <a className="logout-link" onClick={handleLogout}>🚪 Sair</a>
             </nav>
-          )}
-
-          {/* Botão Tema - visível apenas no modo público */}
-          {!isAdmin && (
-            <button 
-              className="tema-btn"
-              onClick={alternarTema}
-              title={temaEscuro ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
-            >
-              {temaEscuro ? '☀️' : '🌙'}
-            </button>
           )}
           
           <button 

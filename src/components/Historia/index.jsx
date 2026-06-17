@@ -27,7 +27,15 @@ const Historia = () => {
   const titulo = config?.historia_titulo || 'Nossa História';
   const conteudo = config?.historia_conteudo || 'Conteúdo da história em breve...';
   const imagem = config?.historia_imagem;
-  const fundacao = config?.historia_fundacao || '2020';
+
+  // Função para remover cores inline do HTML
+  const removerCoresInline = (html) => {
+    if (!html) return '';
+    // Remove style="color: ..." e style="background-color: ..."
+    return html.replace(/style="[^"]*color[^"]*"/gi, '');
+  };
+
+  const conteudoLimpo = removerCoresInline(conteudo);
 
   return (
     <section id="historia" className="historia">
@@ -41,16 +49,11 @@ const Historia = () => {
           {imagem && (
             <div className="historia-imagem-wrapper">
               <img src={imagem} alt="Nossa História" className="historia-imagem" />
-              {fundacao && (
-                <div className="historia-fundacao">
-                  <span>Desde {fundacao}</span>
-                </div>
-              )}
             </div>
           )}
           <div 
             className="historia-texto"
-            dangerouslySetInnerHTML={{ __html: conteudo }}
+            dangerouslySetInnerHTML={{ __html: conteudoLimpo }}
           />
         </div>
       </div>

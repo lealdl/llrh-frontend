@@ -1,6 +1,7 @@
 .historia {
-  padding: 80px 0;
+  padding: 40px 0;
   background: white;
+  transition: background 0.3s ease;
 }
 
 .historia-container {
@@ -11,21 +12,21 @@
 
 .historia-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .historia-header h2 {
-  font-size: 2.5rem;
   color: #1a1a2e;
-  margin-bottom: 0.5rem;
+  margin: 0;
   position: relative;
   display: inline-block;
+  transition: color 0.3s ease;
 }
 
 .historia-header h2::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
@@ -35,9 +36,10 @@
 }
 
 .historia-header p {
-  font-size: 1.1rem;
-  color: #666;
-  margin-top: 16px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  color: #4a5568;
+  transition: color 0.3s ease;
 }
 
 .historia-content {
@@ -47,13 +49,13 @@
   border-radius: 20px;
   padding: 40px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .historia-imagem-wrapper {
   float: left;
   margin: 0 30px 20px 0;
   max-width: 300px;
-  position: relative;
 }
 
 .historia-imagem {
@@ -62,19 +64,6 @@
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   display: block;
-}
-
-.historia-fundacao {
-  position: absolute;
-  bottom: -10px;
-  right: -10px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 8px 20px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .historia-texto {
@@ -86,10 +75,15 @@
 
 .historia-texto p {
   margin-bottom: 1rem;
+  color: #444;
 }
 
 .historia-texto strong {
   color: #1a1a2e;
+}
+
+.historia-texto span {
+  color: #444;
 }
 
 .historia-texto::after {
@@ -98,13 +92,50 @@
   clear: both;
 }
 
+/* TEMA ESCURO */
+body.tema-escuro .historia {
+  background: #121212 !important;
+}
+
+body.tema-escuro .historia-content {
+  background: #1a1a1a !important;
+}
+
+body.tema-escuro .historia-header h2 {
+  color: #ffffff !important;
+}
+
+body.tema-escuro .historia-header p {
+  color: #cccccc !important;
+}
+
+body.tema-escuro .historia-texto {
+  color: #e0e0e0 !important;
+}
+
+body.tema-escuro .historia-texto p {
+  color: #e0e0e0 !important;
+}
+
+body.tema-escuro .historia-texto strong {
+  color: #ffffff !important;
+}
+
+body.tema-escuro .historia-texto span {
+  color: #e0e0e0 !important;
+}
+
+body.tema-escuro .historia-texto * {
+  color: #e0e0e0 !important;
+}
+
 @media (max-width: 768px) {
   .historia {
-    padding: 60px 0;
+    padding: 30px 0;
   }
 
   .historia-header h2 {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 
   .historia-content {
@@ -120,13 +151,6 @@
   .historia-texto {
     font-size: 0.95rem;
     text-align: left;
-  }
-
-  .historia-fundacao {
-    font-size: 0.75rem;
-    padding: 6px 16px;
-    bottom: -8px;
-    right: -8px;
   }
 }
 

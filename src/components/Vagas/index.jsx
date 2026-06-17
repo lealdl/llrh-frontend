@@ -38,34 +38,45 @@ const Vagas = () => {
         </div>
 
         <div className="vagas-grid">
-          {vagas.map(vaga => (
-            <div key={vaga.id} className="vaga-card">
-              <span className="vaga-badge">🔒 Em breve</span>
-              <div className="vaga-card-header">
-                <h3>{vaga.titulo}</h3>
-                <span className={`vaga-tipo ${vaga.tipo === 'PJ' ? 'tipo-pj' : 'tipo-clt'}`}>
-                  {vaga.tipo}
-                </span>
-              </div>
-              
-              <div className="vaga-info">
-                <div className="vaga-info-item">
-                  <span className="info-icon">📍</span>
-                  <span>{vaga.localizacao}</span>
+          {vagas.map(vaga => {
+            const isBloqueado = parseInt(vaga.bloqueado) === 1;
+            return (
+              <div key={vaga.id} className={`vaga-card ${isBloqueado ? 'bloqueada' : 'desbloqueada'}`}>
+                {isBloqueado && <span className="vaga-badge">🔒 Em breve</span>}
+                <div className="vaga-card-header">
+                  <h3>{vaga.titulo}</h3>
+                  <span className={`vaga-tipo ${vaga.tipo === 'PJ' ? 'tipo-pj' : 'tipo-clt'}`}>
+                    {vaga.tipo}
+                  </span>
                 </div>
-                <div className="vaga-info-item">
-                  <span className="info-icon">💰</span>
-                  <span>{vaga.salario}</span>
+                
+                <div className="vaga-info">
+                  <div className="vaga-info-item">
+                    <span className="info-icon">📍</span>
+                    <span>{vaga.localizacao}</span>
+                  </div>
+                  <div className="vaga-info-item">
+                    <span className="info-icon">💰</span>
+                    <span>{vaga.salario}</span>
+                  </div>
                 </div>
+                
+                <p className="vaga-descricao">{vaga.descricao}</p>
+                
+                <button 
+                  className="vaga-btn-candidatar" 
+                  disabled={isBloqueado}
+                  style={!isBloqueado ? { 
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                    color: 'white',
+                    cursor: 'pointer'
+                  } : {}}
+                >
+                  {isBloqueado ? '🔒 Em breve' : '📩 Candidatar-se'}
+                </button>
               </div>
-              
-              <p className="vaga-descricao">{vaga.descricao}</p>
-              
-              <button className="vaga-btn-candidatar" disabled>
-                🔒 Em breve
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

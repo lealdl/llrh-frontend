@@ -1,6 +1,7 @@
 .sobre {
-  padding: 60px 0;
+  padding: 40px 0;
   background: white;
+  transition: background 0.3s ease;
 }
 
 .sobre-container {
@@ -15,17 +16,17 @@
 }
 
 .sobre-header h2 {
-  font-size: 2rem;
   color: #1a1a2e;
-  margin-bottom: 10px;
+  margin: 0;
   position: relative;
   display: inline-block;
+  transition: color 0.3s ease;
 }
 
 .sobre-header h2::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
@@ -34,59 +35,166 @@
   border-radius: 2px;
 }
 
+.sobre-header p {
+  margin-top: 12px;
+  margin-bottom: 0;
+  color: #4a5568;
+  transition: color 0.3s ease;
+}
+
 .sobre-content {
   max-width: 900px;
   margin: 0 auto;
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .sobre-texto {
-  text-align: justify;
+  font-size: 1.05rem;
   line-height: 1.8;
-  color: #4a5568;
-  font-size: 1rem;
-  margin-bottom: 40px;
+  color: #444;
+  text-align: justify;
+}
+
+.sobre-texto p {
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.sobre-texto strong {
+  color: #1a1a2e;
+}
+
+.sobre-texto span {
+  color: #444;
 }
 
 .sobre-valores-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  margin-top: 20px;
+  gap: 24px;
+  margin-top: 30px;
 }
 
 .valor-card {
-  text-align: center;
-  padding: 24px 20px;
-  background: #f8f9fa;
+  background: white;
   border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid #eef2f7;
   transition: all 0.3s ease;
 }
 
 .valor-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
 }
 
 .valor-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+  font-size: 2rem;
+  margin-bottom: 12px;
 }
 
 .valor-card h3 {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #1a1a2e;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .valor-card p {
   font-size: 0.9rem;
-  color: #4a5568;
-  line-height: 1.6;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ===== TEMA ESCURO ===== */
+body.tema-escuro:not(.admin-mode) .sobre {
+  background: #121212 !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-content {
+  background: #1a1a1a !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-header h2 {
+  color: #ffffff !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-header p {
+  color: #cccccc !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-texto {
+  color: #e0e0e0 !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-texto p {
+  color: #e0e0e0 !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-texto strong {
+  color: #ffffff !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-texto span {
+  color: #e0e0e0 !important;
+}
+
+body.tema-escuro:not(.admin-mode) .sobre-texto * {
+  color: #e0e0e0 !important;
+}
+
+body.tema-escuro:not(.admin-mode) .valor-card {
+  background: #1e1e1e !important;
+  border-color: #333 !important;
+}
+
+body.tema-escuro:not(.admin-mode) .valor-card:hover {
+  border-color: #667eea !important;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15) !important;
+}
+
+body.tema-escuro:not(.admin-mode) .valor-card h3 {
+  color: #ffffff !important;
+}
+
+body.tema-escuro:not(.admin-mode) .valor-card p {
+  color: #cccccc !important;
 }
 
 @media (max-width: 768px) {
-  .sobre { padding: 40px 0; }
-  .sobre-header h2 { font-size: 1.5rem; }
-  .sobre-valores-grid { grid-template-columns: 1fr; gap: 20px; }
+  .sobre {
+    padding: 30px 0;
+  }
+
+  .sobre-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .sobre-content {
+    padding: 24px;
+  }
+
+  .sobre-texto {
+    font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .sobre-valores-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sobre-texto {
+    font-size: 0.9rem;
+  }
 }

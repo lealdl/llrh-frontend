@@ -4,14 +4,7 @@ import './contato.css';
 
 const Contato = () => {
   const [config, setConfig] = useState(null);
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    telefone: '',
-    mensagem: ''
-  });
-  const [enviando, setEnviando] = useState(false);
-  const [mensagem, setMensagem] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const carregarConfig = async () => {
@@ -22,33 +15,14 @@ const Contato = () => {
         }
       } catch (error) {
         console.error('Erro:', error);
+      } finally {
+        setLoading(false);
       }
     };
     carregarConfig();
   }, []);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setEnviando(true);
-    
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setMensagem({ type: 'success', text: 'Mensagem enviada com sucesso!' });
-      setFormData({ nome: '', email: '', telefone: '', mensagem: '' });
-      setTimeout(() => setMensagem(null), 5000);
-    } catch (error) {
-      setMensagem({ type: 'error', text: 'Erro ao enviar mensagem. Tente novamente.' });
-    } finally {
-      setEnviando(false);
-    }
-  };
+  if (loading) return null;
 
   const telefone = config?.telefone || '(11) 4000-4433';
   const whatsapp = config?.whatsapp || '(11) 90000-0000';
@@ -56,40 +30,70 @@ const Contato = () => {
   const horario = config?.horario_funcionamento || 'Segunda a Sexta: 9h às 18h';
   const imagem = config?.contato_imagem;
 
+  // Limpar número do WhatsApp (remover espaços, parênteses, traços)
+  const numeroWhatsApp = whatsapp.replace(/[^0-9]/g, '');
+
+  const handleCardClick = (tipo) => {
+    let mensagem = '';
+    let link = '';
+
+    switch (tipo) {
+      case 'candidato':
+        mensagem = encodeURIComponent('Olá! Sou candidato(a) e gostaria de informações sobre oportunidades de emprego na LLRH.');
+        link = `https://wa.me/55${numeroWhatsApp}?text=${mensagem}`;
+        break;
+      case 'empresa':
+        mensagem = encodeURIComponent('Olá! Sou empresa e gostaria de contratar serviços de RH da LLRH.');
+        link = `https://wa.me/55${numeroWhatsApp}?text=${mensagem}`;
+        break;
+      case 'outro':
+        mensagem = encodeURIComponent('Olá! Gostaria de tirar uma dúvida ou falar sobre parcerias com a LLRH.');
+        link = `https://wa.me/55${numeroWhatsApp}?text=${mensagem}`;
+        break;
+      default:
+        return;
+    }
+
+    window.open(link, '_blank');
+  };
+
   return (
     <section id="contato" className="contato">
       <div className="contato-container">
         <div className="contato-header">
-          <h2>Fale Conosco</h2>
-          <p>Estamos aqui para ajudar você!</p>
+          <h2>Entre em Contato</h2>
+          <p>Como podemos ajudar você?</p>
         </div>
 
         <div className="contato-grid">
-          <div className="contato-form-wrapper">
-            <form onSubmit={handleSubmit} className="contato-form">
-              <div className="form-group">
-                <label>Nome completo</label>
-                <input type="text" name="nome" value={formData.nome} onChange={handleChange} required placeholder="Seu nome" />
+          {/* Lado Esquerdo - Cards de Opções */}
+          <div className="contato-opcoes">
+            <div className="opcao-card" onClick={() => handleCardClick('candidato')}>
+              <span className="opcao-icon">🔗</span>
+              <div className="opcao-content">
+                <h4>Sou Candidato</h4>
+                <p>Busco oportunidades de emprego</p>
               </div>
-              <div className="form-group">
-                <label>E-mail</label>
-                <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="seu@email.com" />
+            </div>
+
+            <div className="opcao-card" onClick={() => handleCardClick('empresa')}>
+              <span className="opcao-icon">🔗</span>
+              <div className="opcao-content">
+                <h4>Sou Empresa</h4>
+                <p>Preciso de serviços de RH</p>
               </div>
-              <div className="form-group">
-                <label>Telefone</label>
-                <input type="tel" name="telefone" value={formData.telefone} onChange={handleChange} placeholder="(00) 00000-0000" />
+            </div>
+
+            <div className="opcao-card" onClick={() => handleCardClick('outro')}>
+              <span className="opcao-icon">🔗</span>
+              <div className="opcao-content">
+                <h4>Outro Assunto</h4>
+                <p>Dúvidas gerais ou parcerias</p>
               </div>
-              <div className="form-group">
-                <label>Mensagem</label>
-                <textarea name="mensagem" rows="4" value={formData.mensagem} onChange={handleChange} required placeholder="Digite sua mensagem..." />
-              </div>
-              <button type="submit" disabled={enviando} className="btn-enviar">
-                {enviando ? 'Enviando...' : 'Enviar Mensagem'}
-              </button>
-              {mensagem && <div className={`mensagem-feedback ${mensagem.type}`}>{mensagem.text}</div>}
-            </form>
+            </div>
           </div>
 
+          {/* Lado Direito - Info (mantido igual) */}
           <div className="contato-info-wrapper">
             {imagem && (
               <div className="contato-imagem">

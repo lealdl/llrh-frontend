@@ -1,6 +1,7 @@
 .vagas {
   padding: 40px 0;
   background: white;
+  transition: background 0.3s ease;
 }
 
 .vagas-container {
@@ -19,6 +20,7 @@
   margin: 0;
   position: relative;
   display: inline-block;
+  transition: color 0.3s ease;
 }
 
 .vagas-header h2::after {
@@ -36,6 +38,8 @@
 .vagas-header p {
   margin-top: 12px;
   margin-bottom: 0;
+  color: #4a5568;
+  transition: color 0.3s ease;
 }
 
 .vagas-grid {
@@ -50,18 +54,34 @@
   padding: 24px;
   transition: all 0.3s ease;
   border: 1px solid #eef2f7;
-  opacity: 0.7;
-  filter: grayscale(0.4);
-  pointer-events: none;
-  cursor: not-allowed;
   position: relative;
   overflow: hidden;
 }
 
-.vaga-card:hover {
+.vaga-card.bloqueada {
+  opacity: 0.7;
+  filter: grayscale(0.4);
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.vaga-card.bloqueada:hover {
   transform: none;
   box-shadow: none;
   border-color: #eef2f7;
+}
+
+.vaga-card.desbloqueada {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  cursor: default;
+}
+
+.vaga-card.desbloqueada:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
 }
 
 .vaga-card-header {
@@ -79,6 +99,7 @@
   margin: 0;
   flex: 1;
   padding-right: 10px;
+  transition: color 0.3s ease;
 }
 
 .vaga-tipo {
@@ -107,6 +128,7 @@
   margin-bottom: 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid #eef2f7;
+  transition: border-color 0.3s ease;
 }
 
 .vaga-info-item {
@@ -115,6 +137,7 @@
   gap: 8px;
   font-size: 0.85rem;
   color: #4a5568;
+  transition: color 0.3s ease;
 }
 
 .vaga-descricao {
@@ -122,6 +145,7 @@
   color: #64748b;
   line-height: 1.5;
   margin-bottom: 20px;
+  transition: color 0.3s ease;
 }
 
 .vaga-btn-candidatar {
@@ -134,6 +158,18 @@
   font-size: 0.85rem;
   font-weight: 600;
   cursor: not-allowed;
+  transition: all 0.3s ease;
+}
+
+.vaga-card.desbloqueada .vaga-btn-candidatar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  cursor: pointer;
+}
+
+.vaga-card.desbloqueada .vaga-btn-candidatar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 .vaga-badge {
@@ -149,6 +185,75 @@
   letter-spacing: 0.5px;
   text-transform: uppercase;
   z-index: 2;
+  transition: all 0.3s ease;
+}
+
+/* ===== TEMA ESCURO ===== */
+body.tema-escuro .vagas {
+  background: #121212 !important;
+}
+
+body.tema-escuro .vaga-card {
+  background: #1e1e1e !important;
+  border-color: #333 !important;
+}
+
+body.tema-escuro .vaga-card-header h3 {
+  color: #ffffff !important;
+}
+
+body.tema-escuro .vaga-card .vaga-info-item {
+  color: #cccccc !important;
+}
+
+body.tema-escuro .vaga-card .vaga-descricao {
+  color: #cccccc !important;
+}
+
+body.tema-escuro .vaga-card .vaga-info {
+  border-bottom-color: #333 !important;
+}
+
+body.tema-escuro .vaga-badge {
+  background: #333 !important;
+  color: #aaa !important;
+}
+
+body.tema-escuro .vaga-tipo.tipo-clt {
+  background: #1a3a4a !important;
+  color: #7dd3fc !important;
+}
+
+body.tema-escuro .vaga-tipo.tipo-pj {
+  background: #3a2a1a !important;
+  color: #fbbf24 !important;
+}
+
+body.tema-escuro .vaga-card.bloqueada .vaga-btn-candidatar {
+  background: #2a2a2a !important;
+  color: #666 !important;
+}
+
+body.tema-escuro .vaga-card.desbloqueada .vaga-btn-candidatar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: #ffffff !important;
+}
+
+body.tema-escuro .vaga-card.desbloqueada .vaga-btn-candidatar:hover {
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5) !important;
+}
+
+body.tema-escuro .vaga-card.desbloqueada:hover {
+  border-color: #667eea !important;
+  box-shadow: 0 15px 35px rgba(102, 126, 234, 0.15) !important;
+}
+
+body.tema-escuro .vagas-header h2 {
+  color: #ffffff !important;
+}
+
+body.tema-escuro .vagas-header p {
+  color: #cccccc !important;
 }
 
 @media (max-width: 768px) {

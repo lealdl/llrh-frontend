@@ -14,7 +14,8 @@ const VagasAdmin = () => {
     tipo: 'CLT',
     descricao: '',
     ativo: 1,
-    ordem: 0
+    ordem: 0,
+    bloqueado: 1
   });
 
   const showToast = (message, type = 'success') => {
@@ -59,7 +60,8 @@ const VagasAdmin = () => {
     const dadosEnviar = {
       ...formData,
       ativo: parseInt(formData.ativo) || 0,
-      ordem: parseInt(formData.ordem) || 0
+      ordem: parseInt(formData.ordem) || 0,
+      bloqueado: parseInt(formData.bloqueado) || 0
     };
     
     console.log('📤 Enviando dados:', dadosEnviar);
@@ -78,7 +80,7 @@ const VagasAdmin = () => {
         showToast(editando ? '✅ Vaga atualizada!' : '✅ Vaga criada!');
         setMostrarForm(false);
         setEditando(null);
-        setFormData({ titulo: '', localizacao: '', salario: '', tipo: 'CLT', descricao: '', ativo: 1, ordem: 0 });
+        setFormData({ titulo: '', localizacao: '', salario: '', tipo: 'CLT', descricao: '', ativo: 1, ordem: 0, bloqueado: 1 });
         await carregarVagas();
       } else {
         showToast('❌ ' + (response?.message || 'Falha ao salvar'), 'error');
@@ -98,7 +100,8 @@ const VagasAdmin = () => {
       tipo: vaga.tipo || 'CLT',
       descricao: vaga.descricao || '',
       ativo: parseInt(vaga.ativo) || 1,
-      ordem: parseInt(vaga.ordem) || 0
+      ordem: parseInt(vaga.ordem) || 0,
+      bloqueado: parseInt(vaga.bloqueado) || 1
     });
     setEditando(vaga.id);
     setMostrarForm(true);
@@ -123,7 +126,7 @@ const VagasAdmin = () => {
   const handleCancel = () => {
     setMostrarForm(false);
     setEditando(null);
-    setFormData({ titulo: '', localizacao: '', salario: '', tipo: 'CLT', descricao: '', ativo: 1, ordem: 0 });
+    setFormData({ titulo: '', localizacao: '', salario: '', tipo: 'CLT', descricao: '', ativo: 1, ordem: 0, bloqueado: 1 });
   };
 
   if (loading) return <div className="admin-loading">🔄 Carregando...</div>;
@@ -173,24 +176,59 @@ const VagasAdmin = () => {
               <small>Menor = primeiro</small>
             </div>
             <div className="form-group">
-              <label>Ativo</label>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <input 
-                  type="checkbox" 
-                  name="ativo" 
-                  checked={formData.ativo === 1} 
-                  onChange={handleChange} 
-                />
-                <span style={{ 
-                  padding: '4px 12px', 
-                  borderRadius: '20px', 
-                  fontSize: '0.85rem',
-                  fontWeight: '600',
-                  background: formData.ativo === 1 ? '#d1fae5' : '#fee2e2',
-                  color: formData.ativo === 1 ? '#065f46' : '#991b1b'
-                }}>
-                  {formData.ativo === 1 ? '✅ Ativa' : '❌ Inativa'}
-                </span>
+              {/* <label>Ativo</label> */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input 
+                    type="checkbox" 
+                    name="ativo" 
+                    checked={formData.ativo === 1} 
+                    onChange={handleChange} 
+                  />
+                  <span style={{ 
+                    padding: '4px 12px', 
+                    borderRadius: '20px', 
+                    fontSize: '0.85rem',
+                    fontWeight: '600',
+                    background: formData.ativo === 1 ? '#d1fae5' : '#fee2e2',
+                    color: formData.ativo === 1 ? '#065f46' : '#991b1b'
+                  }}>
+                    {formData.ativo === 1 ? '✅ Ativa' : '❌ Inativa'}
+                  </span>
+                </div>
+                <small style={{ color: '#666', fontSize: '0.75rem', lineHeight: '1.4' }}>
+                  {formData.ativo === 1 
+                    ? '🟢 Ativa: vaga aparece no site.' 
+                    : '🔴 Inativa: vaga fica oculta.'}
+                </small>
+              </div>
+            </div>
+            <div className="form-group">
+              {/* <label>Bloqueado</label> */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input 
+                    type="checkbox" 
+                    name="bloqueado" 
+                    checked={formData.bloqueado === 1} 
+                    onChange={handleChange} 
+                  />
+                  <span style={{ 
+                    padding: '4px 12px', 
+                    borderRadius: '20px', 
+                    fontSize: '0.85rem',
+                    fontWeight: '600',
+                    background: formData.bloqueado === 1 ? '#fef3c7' : '#d1fae5',
+                    color: formData.bloqueado === 1 ? '#92400e' : '#065f46'
+                  }}>
+                    {formData.bloqueado === 1 ? '🔒 Bloqueada' : '🔓 Desbloqueada'}
+                  </span>
+                </div>
+                <small style={{ color: '#666', fontSize: '0.75rem', lineHeight: '1.4' }}>
+                  {formData.bloqueado === 1 
+                    ? '🟡 Bloqueada: vaga aparece com "Em breve" (desabilitada).' 
+                    : '🟢 Desbloqueada: vaga liberada para candidatura.'}
+                </small>
               </div>
             </div>
             <div className="form-group full-width">
@@ -214,18 +252,20 @@ const VagasAdmin = () => {
           <table className="vagas-table">
             <thead>
               <tr>
-                <th style={{ width: '50px' }}>#</th>
+                <th style={{ width: '40px' }}>#</th>
                 <th>Título</th>
                 <th>Localização</th>
                 <th>Salário</th>
                 <th>Tipo</th>
-                <th style={{ width: '120px' }}>Status</th>
+                <th style={{ width: '100px' }}>Status</th>
+                <th style={{ width: '100px' }}>Bloqueio</th>
                 <th style={{ width: '100px' }}>Ações</th>
               </tr>
             </thead>
             <tbody>
               {vagas.map((vaga, index) => {
                 const isAtivo = parseInt(vaga.ativo) === 1;
+                const isBloqueado = parseInt(vaga.bloqueado) === 1;
                 return (
                   <tr key={vaga.id || index}>
                     <td style={{ textAlign: 'center' }}>{index + 1}</td>
@@ -240,6 +280,11 @@ const VagasAdmin = () => {
                     <td>
                       <span className={`servico-status ${isAtivo ? 'ativo' : 'inativo'}`}>
                         {isAtivo ? '✅ Ativa' : '❌ Inativa'}
+                      </span>
+                    </td>
+                    <td>
+                      <span className={`servico-status ${isBloqueado ? 'bloqueado' : 'desbloqueado'}`}>
+                        {isBloqueado ? '🔒 Bloqueada' : '🔓 Desbloqueada'}
                       </span>
                     </td>
                     <td>
