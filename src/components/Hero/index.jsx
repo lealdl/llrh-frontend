@@ -9,7 +9,6 @@ const Hero = () => {
   const carregarHero = useCallback(async () => {
     try {
       const data = await api.getConfiguracoes();
-      console.log('📦 Configurações do Hero:', data);
       if (data.success && data.data) {
         setConfig(data.data);
       }
@@ -51,8 +50,6 @@ const Hero = () => {
   const nomeSite = config?.nome_site || 'LLRH ATRAÇÃO DE TALENTOS';
   const imagemHero = config?.logo_hero_url;
 
-  console.log('🖼️ URL da imagem:', imagemHero);
-
   return (
     <section id="home" className="hero">
       <div className="hero-container">
@@ -68,15 +65,12 @@ const Hero = () => {
               src={imagemHero} 
               alt="Hero" 
               className="hero-img"
-              onError={(e) => {
-                console.error('❌ Erro ao carregar imagem:', imagemHero);
-                e.target.style.display = 'none';
-              }}
-              onLoad={() => console.log('✅ Imagem carregada com sucesso!')}
+              onError={(e) => e.target.style.display = 'none'}
             />
           ) : (
             <div className="hero-placeholder">
               <span>LLRH</span>
+              <span>ATRAÇÃO DE TALENTOS</span>
             </div>
           )}
         </div>
