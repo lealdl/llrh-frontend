@@ -1,9 +1,10 @@
 .rich-text-editor-wrapper {
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible !important;
   background: white;
   border: 2px solid #e2e5f0;
   transition: border-color 0.3s ease;
+  position: relative;
 }
 
 .rich-text-editor-wrapper:focus-within {
@@ -18,6 +19,10 @@
   border-radius: 8px 8px 0 0;
   padding: 8px 12px;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  overflow: visible !important;
 }
 
 .quill-editor .ql-toolbar .ql-formats {
@@ -41,39 +46,119 @@
 
 .quill-editor .ql-toolbar .ql-picker {
   border-radius: 4px;
+  position: relative;
 }
 
 .quill-editor .ql-toolbar .ql-picker:hover {
   background: #e9ecef;
 }
 
+/* ===== DROPDOWNS COM SCROLL ===== */
+
 /* Seletor de fontes */
 .ql-snow .ql-picker.ql-font {
   width: 120px !important;
+  position: relative !important;
 }
 
 .ql-snow .ql-picker.ql-font .ql-picker-label {
   width: 120px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .ql-snow .ql-picker.ql-font .ql-picker-options {
   width: 180px !important;
+  max-height: 250px !important;
+  overflow-y: auto !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  z-index: 9999 !important;
+  background: white !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  padding: 4px 0 !important;
 }
 
-/* Seletor de tamanho */
+.ql-snow .ql-picker.ql-font .ql-picker-options .ql-picker-item {
+  padding: 6px 12px !important;
+  display: block !important;
+  font-size: 0.9rem !important;
+  cursor: pointer !important;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-options .ql-picker-item:hover {
+  background: #f0f2ff !important;
+}
+
+/* Seletor de tamanho - RESTAURADO */
 .ql-snow .ql-picker.ql-size {
   width: 80px !important;
+  position: relative !important;
 }
 
 .ql-snow .ql-picker.ql-size .ql-picker-label {
   width: 80px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .ql-snow .ql-picker.ql-size .ql-picker-options {
   width: 100px !important;
+  max-height: 250px !important;
+  overflow-y: auto !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  z-index: 9999 !important;
+  background: white !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  padding: 4px 0 !important;
 }
 
-/* Exibir nomes bonitos no dropdown - FONTES */
+.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item {
+  padding: 4px 8px !important;
+  display: block !important;
+  font-size: 0.85rem !important;
+  cursor: pointer !important;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-options .ql-picker-item:hover {
+  background: #f0f2ff !important;
+}
+
+/* Seletor de cabeçalho */
+.ql-snow .ql-picker.ql-header .ql-picker-options {
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+/* Scrollbar */
+.ql-snow .ql-picker .ql-picker-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ql-snow .ql-picker .ql-picker-options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.ql-snow .ql-picker .ql-picker-options::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.ql-snow .ql-picker .ql-picker-options::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* ===== EXIBIÇÃO DOS NOMES ===== */
+
+/* Fontes */
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="Arial"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="Arial"]::before {
   content: 'Arial' !important;
@@ -136,7 +221,7 @@
   font-family: 'Nunito', sans-serif !important;
 }
 
-/* Exibir tamanhos no dropdown */
+/* Tamanhos */
 .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="8"]::before,
 .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="8"]::before {
   content: '8' !important;
@@ -190,7 +275,7 @@
   content: '72' !important;
 }
 
-/* Classes para aplicar as fontes no texto */
+/* ===== CLASSES PARA APLICAR AS FONTES ===== */
 .ql-font-Arial {
   font-family: Arial, sans-serif !important;
 }
@@ -228,7 +313,7 @@
   font-family: 'Nunito', sans-serif !important;
 }
 
-/* Classes para tamanhos */
+/* ===== CLASSES PARA TAMANHOS ===== */
 .ql-size-8 { font-size: 8px !important; }
 .ql-size-10 { font-size: 10px !important; }
 .ql-size-12 { font-size: 12px !important; }
@@ -243,12 +328,14 @@
 .ql-size-48 { font-size: 48px !important; }
 .ql-size-72 { font-size: 72px !important; }
 
-/* Container do editor */
+/* ===== CONTAINER DO EDITOR ===== */
 .quill-editor .ql-container {
   border: none;
   font-size: 0.95rem;
   font-family: inherit;
+  max-height: 400px;
   min-height: 250px;
+  overflow-y: auto;
 }
 
 .quill-editor .ql-editor {
@@ -256,6 +343,7 @@
   padding: 16px 20px;
   line-height: 1.8;
   color: #333;
+  overflow-y: auto;
 }
 
 .quill-editor .ql-editor h1 {
@@ -322,6 +410,7 @@
   text-align: center;
 }
 
+/* ===== RESPONSIVO ===== */
 @media (max-width: 768px) {
   .quill-editor .ql-toolbar {
     padding: 6px 8px;
@@ -355,11 +444,21 @@
     width: 80px !important;
   }
 
+  .ql-snow .ql-picker.ql-font .ql-picker-options {
+    width: 160px !important;
+    max-height: 200px !important;
+  }
+
   .ql-snow .ql-picker.ql-size {
     width: 60px !important;
   }
 
   .ql-snow .ql-picker.ql-size .ql-picker-label {
     width: 60px !important;
+  }
+
+  .ql-snow .ql-picker.ql-size .ql-picker-options {
+    width: 80px !important;
+    max-height: 200px !important;
   }
 }

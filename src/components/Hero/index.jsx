@@ -9,6 +9,7 @@ const Hero = () => {
   const carregarHero = useCallback(async () => {
     try {
       const data = await api.getConfiguracoes();
+      console.log('📦 Configurações do Hero:', data);
       if (data.success && data.data) {
         setConfig(data.data);
       }
@@ -35,6 +36,13 @@ const Hero = () => {
     };
   }, [carregarHero]);
 
+  // Função para remover cores inline do HTML
+  const removerCoresInline = (html) => {
+    if (!html) return '';
+    // Remove style="color: ..." e style="background-color: ..."
+    return html.replace(/style="[^"]*color[^"]*"/gi, '');
+  };
+
   if (loading) {
     return (
       <section id="home" className="hero">
@@ -50,12 +58,17 @@ const Hero = () => {
   const nomeSite = config?.nome_site || 'LLRH ATRAÇÃO DE TALENTOS';
   const imagemHero = config?.logo_hero_url;
 
+  // Remover cores inline da descrição
+  const descricaoLimpa = removerCoresInline(descricao);
+
+  console.log('🖼️ URL da imagem:', imagemHero);
+
   return (
     <section id="home" className="hero">
       <div className="hero-container">
         <div className="hero-card hero-card-text">
           <h1 className="hero-title">{titulo}</h1>
-          <p className="hero-description">{descricao}</p>
+          <p className="hero-description" dangerouslySetInnerHTML={{ __html: descricaoLimpa }} />
           <div className="hero-footer">{nomeSite}</div>
         </div>
 
@@ -65,7 +78,11 @@ const Hero = () => {
               src={imagemHero} 
               alt="Hero" 
               className="hero-img"
-              onError={(e) => e.target.style.display = 'none'}
+              onError={(e) => {
+                console.error('❌ Erro ao carregar imagem:', imagemHero);
+                e.target.style.display = 'none';
+              }}
+              onLoad={() => console.log('✅ Imagem carregada com sucesso!')}
             />
           ) : (
             <div className="hero-placeholder">

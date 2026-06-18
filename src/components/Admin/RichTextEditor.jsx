@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './richtexteditor.css';
 
-// Lista de fontes - SEM ESPAÇOS nos nomes
+// Lista de fontes
 const FONT_FAMILIES = [
   'Arial', 'Arial-Black', 'Comic-Sans-MS', 'Courier-New', 'Georgia',
   'Impact', 'Tahoma', 'Times-New-Roman', 'Trebuchet-MS', 'Verdana',
@@ -12,8 +12,20 @@ const FONT_FAMILIES = [
 
 const FONT_SIZES = ['8', '10', '12', '14', '16', '18', '20', '24', '28', '32', '36', '48', '72'];
 
+// Registrar fontes GLOBALMENTE (fora do componente)
+const Font = ReactQuill.Quill.import('formats/font');
+Font.whitelist = FONT_FAMILIES;
+ReactQuill.Quill.register(Font, true);
+
+const Size = ReactQuill.Quill.import('formats/size');
+Size.whitelist = FONT_SIZES;
+ReactQuill.Quill.register(Size, true);
+
 const RichTextEditor = ({ value, onChange, placeholder }) => {
+  const quillRef = useRef(null);
+
   useEffect(() => {
+    // Forçar registro quando o componente montar
     const Font = ReactQuill.Quill.import('formats/font');
     Font.whitelist = FONT_FAMILIES;
     ReactQuill.Quill.register(Font, true);
@@ -22,11 +34,8 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
     Size.whitelist = FONT_SIZES;
     ReactQuill.Quill.register(Size, true);
 
-    // Forçar recarga do editor
-    const quill = document.querySelector('.ql-editor');
-    if (quill) {
-      quill.classList.add('ql-font-Poppins');
-    }
+    // Log para debug
+    console.log('📝 Fontes registradas:', Font.whitelist);
   }, []);
 
   const modules = {
@@ -59,6 +68,7 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
   return (
     <div className="rich-text-editor-wrapper">
       <ReactQuill
+        ref={quillRef}
         theme="snow"
         value={value || ''}
         onChange={onChange}

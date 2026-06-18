@@ -19,21 +19,7 @@ const AdminDashboard = () => {
     const [messageType, setMessageType] = useState('');
     const [uploading, setUploading] = useState(false);
     const toastTimeoutRef = useRef(null);
-
-    // Verificar se está no modo dev (pelo parâmetro da URL)
-    const params = new URLSearchParams(window.location.search);
-    const isDevRoute = params.get('dev') === 'true';
-
-    // Se estiver na rota dev, redirecionar para login dev se não estiver autenticado
-    useEffect(() => {
-        if (isDevRoute) {
-            const devToken = localStorage.getItem('devToken');
-            const devUser = localStorage.getItem('devUser');
-            if (!devToken || !devUser) {
-                window.location.href = '/?dev=true';
-            }
-        }
-    }, [isDevRoute]);
+    const [editorKey, setEditorKey] = useState(0);
 
     useEffect(() => {
         carregarConfiguracoes();
@@ -44,6 +30,8 @@ const AdminDashboard = () => {
             const response = await getConfiguracoes();
             if (response.success && response.data) {
                 setConfig(response.data);
+                // Forçar recriação do editor após carregar dados
+                setEditorKey(prev => prev + 1);
             }
         } catch (error) {
             console.error('Erro:', error);
@@ -148,7 +136,17 @@ const AdminDashboard = () => {
                 return (
                     <div className="tab-content">
                         <div className="form-section">
+                            <h2>Hero</h2>
                             <div className="form-group"><label>Hero Título</label><input type="text" name="hero_titulo" value={config?.hero_titulo || ""} onChange={handleChange} /></div>
+                            <div className="form-group"><label>Hero Descrição</label>
+                                <RichTextEditor 
+                                    key={`hero_descricao_${editorKey}`}
+                                    value={config?.hero_descricao || ''} 
+                                    onChange={(html) => handleRichTextChange('hero_descricao', html)} 
+                                    placeholder="Digite a descrição do Hero..." 
+                                />
+                            </div>
+                            
                             <h2>Informações da Empresa</h2>
                             <div className="form-group"><label>Nome do Site</label><input type="text" name="nome_site" value={config?.nome_site || ''} onChange={handleChange} /></div>
                             <div className="form-group"><label>Email de Contato</label><input type="email" name="email_contato" value={config?.email_contato || ''} onChange={handleChange} /></div>
@@ -175,9 +173,17 @@ const AdminDashboard = () => {
                         <div className="form-section">
                             <h2>Seção Sobre</h2>
                             <div className="form-group"><label>Título</label><input type="text" name="sobre_titulo" value={config?.sobre_titulo || 'Sobre a LLRH'} onChange={handleChange} /></div>
-                            <div className="form-group"><label>Conteúdo Principal</label><RichTextEditor value={config?.sobre_conteudo || ''} onChange={(html) => handleRichTextChange('sobre_conteudo', html)} placeholder="Digite o conteúdo..." /></div>
+                            <div className="form-group"><label>Conteúdo Principal</label>
+                                <RichTextEditor 
+                                    key={`sobre_conteudo_${editorKey}`}
+                                    value={config?.sobre_conteudo || ''} 
+                                    onChange={(html) => handleRichTextChange('sobre_conteudo', html)} 
+                                    placeholder="Digite o conteúdo..." 
+                                />
+                            </div>
                             <div className="form-group"><label>Missão</label>
                                 <RichTextEditor 
+                                    key={`sobre_missao_${editorKey}`}
                                     value={config?.sobre_missao || ''} 
                                     onChange={(html) => handleRichTextChange('sobre_missao', html)} 
                                     placeholder="Digite a missão..." 
@@ -185,6 +191,7 @@ const AdminDashboard = () => {
                             </div>
                             <div className="form-group"><label>Visão</label>
                                 <RichTextEditor 
+                                    key={`sobre_visao_${editorKey}`}
                                     value={config?.sobre_visao || ''} 
                                     onChange={(html) => handleRichTextChange('sobre_visao', html)} 
                                     placeholder="Digite a visão..." 
@@ -192,6 +199,7 @@ const AdminDashboard = () => {
                             </div>
                             <div className="form-group"><label>Valores</label>
                                 <RichTextEditor 
+                                    key={`sobre_valores_${editorKey}`}
                                     value={config?.sobre_valores || ''} 
                                     onChange={(html) => handleRichTextChange('sobre_valores', html)} 
                                     placeholder="Digite os valores..." 
@@ -262,6 +270,7 @@ const AdminDashboard = () => {
                             <div className="form-group">
                                 <label>Conteúdo da História</label>
                                 <RichTextEditor 
+                                    key={`historia_conteudo_${editorKey}`}
                                     value={config?.historia_conteudo || ''} 
                                     onChange={(html) => handleRichTextChange('historia_conteudo', html)} 
                                     placeholder="Digite a história da empresa aqui. Use as ferramentas de formatação para deixar o texto mais rico..." 
@@ -281,7 +290,6 @@ const AdminDashboard = () => {
                     </div>
                 );
             case 'desenvolvedor':
-                // Verifica se está autenticado como dev
                 const devToken = localStorage.getItem('devToken');
                 const devUser = localStorage.getItem('devUser');
                 if (!devToken || !devUser) {
@@ -294,7 +302,6 @@ const AdminDashboard = () => {
         }
     };
 
-    // Verifica se a aba atual é 'desenvolvedor' para não envolver em form
     const isDevTab = activeTab === 'desenvolvedor';
 
     return (

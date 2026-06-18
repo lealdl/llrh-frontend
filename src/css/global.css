@@ -342,3 +342,68 @@ body.tema-escuro:not(.admin-mode) ::-webkit-scrollbar-thumb:hover {
 .ql-size-36 { font-size: 36px !important; }
 .ql-size-48 { font-size: 48px !important; }
 .ql-size-72 { font-size: 72px !important; }
+
+/* Fontes Poppins e Nunito para o editor */
+.ql-font-Poppins {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.ql-font-Nunito {
+  font-family: 'Nunito', sans-serif !important;
+}
+
+/* Fontes Poppins e Nunito para o editor */
+.ql-font-Poppins {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.ql-font-Nunito {
+  font-family: 'Nunito', sans-serif !important;
+}
+
+/* ===== TODAS AS FONTES DO EDITOR ===== */
+.ql-font-Arial {
+  font-family: Arial, sans-serif !important;
+}
+.ql-font-Arial-Black {
+  font-family: 'Arial Black', sans-serif !important;
+}
+.ql-font-Comic-Sans-MS {
+  font-family: 'Comic Sans MS', cursive !important;
+}
+.ql-font-Courier-New {
+  font-family: 'Courier New', monospace !important;
+}
+.ql-font-Georgia {
+  font-family: Georgia, serif !important;
+}
+.ql-font-Impact {
+  font-family: Impact, sans-serif !important;
+}
+.ql-font-Tahoma {
+  font-family: Tahoma, sans-serif !important;
+}
+.ql-font-Times-New-Roman {
+  font-family: 'Times New Roman', serif !important;
+}
+.ql-font-Trebuchet-MS {
+  font-family: 'Trebuchet MS', sans-serif !important;
+}
+.ql-font-Verdana {
+  font-family: Verdana, sans-serif !important;
+}
+.ql-font-Poppins {
+  font-family: 'Poppins', sans-serif !important;
+}
+.ql-font-Nunito {
+  font-family: 'Nunito', sans-serif !important;
+}
+
+/* Poppins e Nunito para o editor */
+.ql-font-Poppins {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.ql-font-Nunito {
+  font-family: 'Nunito', sans-serif !important;
+}
