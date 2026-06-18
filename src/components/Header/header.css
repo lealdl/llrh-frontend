@@ -10,19 +10,19 @@
   transition: background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
 }
 
-/* Efeito de transparência ao rolar - MUITO FORTE */
+/* Efeito de transparência ao rolar - SUPER TRANSPARENTE */
 .header-scrolled {
-  background: rgba(255, 255, 255, 0.50) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(30px) !important;
+  -webkit-backdrop-filter: blur(30px) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03) !important;
 }
 
-/* Tema escuro com transparência muito forte */
+/* Tema escuro com transparência super forte */
 body.tema-escuro .header-scrolled {
-  background: rgba(10, 10, 10, 0.60) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
+  background: rgba(5, 5, 5, 0.25) !important;
+  backdrop-filter: blur(30px) !important;
+  -webkit-backdrop-filter: blur(30px) !important;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3) !important;
 }
 

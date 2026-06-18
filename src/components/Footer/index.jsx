@@ -5,6 +5,7 @@ import './footer.css';
 const Footer = () => {
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const carregarConfig = async () => {
@@ -22,6 +23,21 @@ const Footer = () => {
     carregarConfig();
   }, []);
 
+  // Detectar scroll para transparência
+  useEffect(() => {
+    const handleScroll = () => {
+      // Verifica se o usuário rolou mais de 100px do topo
+      if (window.scrollY > 100) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   if (loading) return null;
 
   const nomeSite = config?.nome_site || 'LLRH - ATRAÇÃO DE TALENTOS';
@@ -33,7 +49,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${scrolled ? 'footer-scrolled' : ''}`}>
       <div className="footer-container">
         <div className="footer-copyright">
           © {new Date().getFullYear()} {nomeSite}. Todos os direitos reservados.
