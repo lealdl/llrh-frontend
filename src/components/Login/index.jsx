@@ -155,6 +155,10 @@ const Login = ({ onLoginSuccess }) => {
         }
     };
 
+    const handleVoltarSite = () => {
+        window.location.href = '/';
+    };
+
     // Tela de recuperação de senha
     if (recuperarSenha) {
         return (
@@ -344,6 +348,15 @@ const Login = ({ onLoginSuccess }) => {
                         onClick={() => setRecuperarSenha(true)}
                     >
                         Esqueceu a senha?
+                    </button>
+                </div>
+
+                <div className="login-voltar">
+                    <button 
+                        className="voltar-link"
+                        onClick={handleVoltarSite}
+                    >
+                        ← Voltar para o site
                     </button>
                 </div>
                 

@@ -66,6 +66,16 @@ const DevLogin = ({ onLoginSuccess }) => {
         setMostrarSenha(!mostrarSenha);
     };
 
+    const handleVoltarAdmin = () => {
+        // Verifica se está logado como admin
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = '/?admin=true';
+        } else {
+            window.location.href = '/';
+        }
+    };
+
     return (
         <div className="dev-login-container">
             <div className="dev-login-card">
@@ -136,6 +146,15 @@ const DevLogin = ({ onLoginSuccess }) => {
                         )}
                     </button>
                 </form>
+
+                <div className="dev-voltar-admin">
+                    <button 
+                        className="voltar-admin-link"
+                        onClick={handleVoltarAdmin}
+                    >
+                        ← Voltar para o painel admin
+                    </button>
+                </div>
                 
                 <div className="dev-login-footer">
                     <p>🔐 Acesso restrito para desenvolvedores</p>

@@ -301,3 +301,23 @@
         font-size: 1.2rem;
     }
 }
+
+/* Link Voltar para o admin */
+.dev-voltar-admin {
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.voltar-admin-link {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.voltar-admin-link:hover {
+    color: #667eea;
+}
