@@ -30,13 +30,6 @@ const Sobre = () => {
   const visao = config?.sobre_visao || '';
   const valores = config?.sobre_valores || '';
 
-  const stripHTML = (html) => {
-    if (!html) return '';
-    const temp = document.createElement('div');
-    temp.innerHTML = html;
-    return temp.textContent || temp.innerText || '';
-  };
-
   return (
     <section id="sobre" className="sobre">
       <div className="sobre-container">
@@ -50,21 +43,21 @@ const Sobre = () => {
               <div className="valor-card">
                 <div className="valor-icon">🎯</div>
                 <h3>Nossa Missão</h3>
-                <p>{stripHTML(missao)}</p>
+                <div className="valor-texto" dangerouslySetInnerHTML={{ __html: missao }} />
               </div>
             )}
             {visao && (
               <div className="valor-card">
                 <div className="valor-icon">👁️</div>
                 <h3>Nossa Visão</h3>
-                <p>{stripHTML(visao)}</p>
+                <div className="valor-texto" dangerouslySetInnerHTML={{ __html: visao }} />
               </div>
             )}
             {valores && (
               <div className="valor-card">
                 <div className="valor-icon">💎</div>
                 <h3>Nossos Valores</h3>
-                <p>{stripHTML(valores)}</p>
+                <div className="valor-texto" dangerouslySetInnerHTML={{ __html: valores }} />
               </div>
             )}
           </div>

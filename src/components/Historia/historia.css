@@ -43,11 +43,11 @@
 }
 
 .historia-content {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   background: #f8f9fa;
   border-radius: 20px;
-  padding: 40px;
+  padding: 50px 60px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: background 0.3s ease, color 0.3s ease;
 }
@@ -129,6 +129,12 @@ body.tema-escuro .historia-texto * {
   color: #e0e0e0 !important;
 }
 
+@media (max-width: 992px) {
+  .historia-content {
+    padding: 30px 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .historia {
     padding: 30px 0;
@@ -139,7 +145,7 @@ body.tema-escuro .historia-texto * {
   }
 
   .historia-content {
-    padding: 24px;
+    padding: 24px 16px;
   }
 
   .historia-imagem-wrapper {

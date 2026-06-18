@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { getLogo } from '../../services/api';
+import DeveloperModal from '../DeveloperModal';
 import './header.css';
 
 const Header = ({ onLogout }) => {
@@ -12,6 +13,8 @@ const Header = ({ onLogout }) => {
   const [temaEscuro, setTemaEscuro] = useState(() => {
     return localStorage.getItem('tema') === 'escuro';
   });
+  const [scrolled, setScrolled] = useState(false);
+  const [devModalOpen, setDevModalOpen] = useState(false);
 
   useEffect(() => {
     const carregarLogo = async () => {
@@ -43,6 +46,20 @@ const Header = ({ onLogout }) => {
     }
     localStorage.setItem('tema', temaEscuro ? 'escuro' : 'claro');
   }, [temaEscuro]);
+
+  // Detectar scroll para transparência
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const alternarTema = () => {
     setTemaEscuro(!temaEscuro);
@@ -112,6 +129,14 @@ const Header = ({ onLogout }) => {
           )}
         </nav>
         
+        {/* Link do Desenvolvedor - FORA DO NAV */}
+        <div className="drawer-divider"></div>
+        <div className="drawer-dev-container">
+          <a className="drawer-dev-link" onClick={() => setDevModalOpen(true)}>
+            👨‍💻 Desenvolvido por Luciano Leal
+          </a>
+        </div>
+        
         <div className="drawer-footer">
           <p>© 2024 LLRH</p>
           <p>Todos os direitos reservados</p>
@@ -124,7 +149,7 @@ const Header = ({ onLogout }) => {
 
   return (
     <>
-      <header className={`header ${isAdmin ? 'admin-header' : ''}`}>
+      <header className={`header ${isAdmin ? 'admin-header' : ''} ${scrolled ? 'header-scrolled' : ''}`}>
         <div className="header-container">
           <div className="logo" onClick={() => !isAdmin && scrollToSection('home')}>
             {logoUrl ? <img src={logoUrl} alt="Logo" className="logo-img" /> : <div className="logo-circle">LLRH</div>}
@@ -174,6 +199,9 @@ const Header = ({ onLogout }) => {
       </header>
 
       {createPortal(drawerContent, document.body)}
+      
+      {/* Modal do Desenvolvedor */}
+      <DeveloperModal isOpen={devModalOpen} onClose={() => setDevModalOpen(false)} />
     </>
   );
 };
