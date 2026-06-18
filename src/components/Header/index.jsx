@@ -4,7 +4,7 @@ import { getLogo } from '../../services/api';
 import DeveloperModal from '../DeveloperModal';
 import './header.css';
 
-const Header = ({ onLogout }) => {
+const Header = ({ onLogout, isDev = false }) => {
   const [drawerAberto, setDrawerAberto] = useState(false);
   const [logoUrl, setLogoUrl] = useState(null);
   const [isAdmin, setIsAdmin] = useState(() => {
@@ -78,9 +78,21 @@ const Header = ({ onLogout }) => {
     setDrawerAberto(false);
   };
 
+  const handleDevClick = () => {
+    window.location.href = '/?dev=true';
+    setDrawerAberto(false);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    window.location.href = '/';
+    setDrawerAberto(false);
+  };
+
+  const handleDevLogout = () => {
+    localStorage.removeItem('devToken');
+    localStorage.removeItem('devUser');
     window.location.href = '/';
     setDrawerAberto(false);
   };
@@ -109,7 +121,7 @@ const Header = ({ onLogout }) => {
         </div>
         
         <nav className="drawer-nav">
-          {!isAdmin && (
+          {!isAdmin && !isDev && (
             <>
               <a onClick={() => scrollToSection('home')}>🏠 Início</a>
               <a onClick={() => scrollToSection('sobre')}>📖 Sobre</a>
@@ -118,6 +130,7 @@ const Header = ({ onLogout }) => {
               <a onClick={() => scrollToSection('vagas')}>💼 Vagas</a>
               <a onClick={() => scrollToSection('contato')}>📞 Contato</a>
               <a className="drawer-admin-link" onClick={handleAdminClick}>🔒 Área Admin</a>
+              <a className="drawer-dev-link" onClick={handleDevClick}>👨‍💻 Área Dev</a>
             </>
           )}
           {isAdmin && (
@@ -125,6 +138,14 @@ const Header = ({ onLogout }) => {
               <div className="drawer-section-title">ADMINISTRAÇÃO</div>
               <a onClick={() => window.location.reload()}>📊 Dashboard</a>
               <a className="drawer-logout-link" onClick={handleLogout}>🚪 Sair</a>
+              <a className="drawer-dev-link" onClick={handleDevClick}>👨‍💻 Área Dev</a>
+            </>
+          )}
+          {isDev && (
+            <>
+              <div className="drawer-section-title">👨‍💻 DESENVOLVEDOR</div>
+              <a onClick={() => window.location.reload()}>📊 Dashboard Dev</a>
+              <a className="drawer-logout-link" onClick={handleDevLogout}>🚪 Sair</a>
             </>
           )}
         </nav>
@@ -145,19 +166,19 @@ const Header = ({ onLogout }) => {
     </>
   );
 
-  console.log('🔍 Header renderizado - isAdmin:', isAdmin);
-
   return (
     <>
       <header className={`header ${isAdmin ? 'admin-header' : ''} ${scrolled ? 'header-scrolled' : ''}`}>
         <div className="header-container">
           <div className="logo" onClick={() => !isAdmin && scrollToSection('home')}>
             {logoUrl ? <img src={logoUrl} alt="Logo" className="logo-img" /> : <div className="logo-circle">LLRH</div>}
-            <span className="logo-text">{isAdmin ? 'Painel Administrativo' : 'LLRH - Atração de Talentos'}</span>
+            <span className="logo-text">
+              {isDev ? '👨‍💻 Área do Desenvolvedor' : isAdmin ? 'Painel Administrativo' : 'LLRH - Atração de Talentos'}
+            </span>
           </div>
           
           {/* Menu Desktop */}
-          {!isAdmin && (
+          {!isAdmin && !isDev && (
             <nav className="nav-desktop">
               <a onClick={() => scrollToSection('home')}>Início</a>
               <a onClick={() => scrollToSection('sobre')}>Sobre</a>
@@ -176,8 +197,15 @@ const Header = ({ onLogout }) => {
             </nav>
           )}
 
+          {isDev && (
+            <nav className="nav-desktop nav-dev">
+              <a onClick={() => window.location.reload()}>📊 Dashboard Dev</a>
+              <a className="logout-link" onClick={handleDevLogout}>🚪 Sair</a>
+            </nav>
+          )}
+
           {/* Botão Tema - visível apenas no modo público */}
-          {!isAdmin && (
+          {!isAdmin && !isDev && (
             <button 
               className="tema-btn"
               onClick={alternarTema}

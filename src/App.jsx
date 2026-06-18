@@ -9,20 +9,29 @@ import Contato from './components/Contato'
 import Footer from './components/Footer'
 import AdminDashboard from './components/Admin'
 import Login from './components/Login'
+import DevLogin from './components/DevLogin'
 import './css/global.css'
 
 function App() {
   const [mostrarBotaoTopo, setMostrarBotaoTopo] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isDevAuthenticated, setIsDevAuthenticated] = useState(false)
   const [loadingAuth, setLoadingAuth] = useState(true)
 
-  // Verificar autenticação
   useEffect(() => {
     const token = localStorage.getItem('token')
     const user = localStorage.getItem('user')
+    const devToken = localStorage.getItem('devToken')
+    const devUser = localStorage.getItem('devUser')
+    
+    console.log('🔍 Token admin:', token)
+    console.log('🔍 Dev token:', devToken)
     
     if (token && user) {
       setIsAuthenticated(true)
+    }
+    if (devToken && devUser) {
+      setIsDevAuthenticated(true)
     }
     setLoadingAuth(false)
   }, [])
@@ -44,6 +53,11 @@ function App() {
     setIsAuthenticated(true)
   }
 
+  const handleDevLoginSuccess = () => {
+    console.log('✅ Login dev bem-sucedido')
+    setIsDevAuthenticated(true)
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -51,14 +65,48 @@ function App() {
     window.location.href = '/'
   }
 
+  const handleDevLogout = () => {
+    localStorage.removeItem('devToken')
+    localStorage.removeItem('devUser')
+    setIsDevAuthenticated(false)
+    window.location.href = '/'
+  }
+
   const params = new URLSearchParams(window.location.search)
   const isAdminRoute = params.get('admin') === 'true'
+  const isDevRoute = params.get('dev') === 'true'
+
+  console.log('🔍 isDevRoute:', isDevRoute)
+  console.log('🔍 isDevAuthenticated:', isDevAuthenticated)
 
   if (loadingAuth) {
     return <div className="app">Carregando...</div>
   }
 
-  // Tela de login (se tentar acessar admin sem estar logado)
+  // Rota do Desenvolvedor - exige login dev
+  if (isDevRoute) {
+    // Forçar logout se não houver token dev
+    if (!isDevAuthenticated) {
+      console.log('🔐 Mostrando tela de login dev')
+      return <DevLogin onLoginSuccess={handleDevLoginSuccess} />
+    }
+    
+    console.log('👨‍💻 Mostrando painel dev')
+    
+    return (
+      <div className="app">
+        <Header onLogout={handleDevLogout} isDev={true} />
+        <main style={{ paddingTop: '80px' }}>
+          <AdminDashboard />
+        </main>
+        {mostrarBotaoTopo && (
+          <button className="btn-topo" onClick={scrollToTop}>↑</button>
+        )}
+      </div>
+    )
+  }
+
+  // Tela de login admin (se tentar acessar admin sem estar logado)
   if (isAdminRoute && !isAuthenticated) {
     return <Login onLoginSuccess={handleLoginSuccess} />
   }
@@ -68,7 +116,7 @@ function App() {
     return (
       <div className="app">
         <Header onLogout={handleLogout} />
-        <main>
+        <main style={{ paddingTop: '80px' }}>
           <AdminDashboard />
         </main>
         {mostrarBotaoTopo && (

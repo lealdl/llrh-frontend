@@ -4,6 +4,7 @@ import RichTextEditor from './RichTextEditor';
 import ServicosAdmin from './Servicos';
 import ContatoAdmin from './Contato';
 import VagasAdmin from './Vagas';
+import DesenvolvedorAdmin from './Desenvolvedor';
 import './admin.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/api-llrh';
@@ -18,6 +19,21 @@ const AdminDashboard = () => {
     const [messageType, setMessageType] = useState('');
     const [uploading, setUploading] = useState(false);
     const toastTimeoutRef = useRef(null);
+
+    // Verificar se está no modo dev (pelo parâmetro da URL)
+    const params = new URLSearchParams(window.location.search);
+    const isDevRoute = params.get('dev') === 'true';
+
+    // Se estiver na rota dev, redirecionar para login dev se não estiver autenticado
+    useEffect(() => {
+        if (isDevRoute) {
+            const devToken = localStorage.getItem('devToken');
+            const devUser = localStorage.getItem('devUser');
+            if (!devToken || !devUser) {
+                window.location.href = '/?dev=true';
+            }
+        }
+    }, [isDevRoute]);
 
     useEffect(() => {
         carregarConfiguracoes();
@@ -53,6 +69,7 @@ const AdminDashboard = () => {
     };
 
     const handleRichTextChange = (name, value) => {
+        console.log(`📝 ${name} alterado:`, value);
         setConfig(prev => ({ ...prev, [name]: value }));
     };
 
@@ -105,14 +122,18 @@ const AdminDashboard = () => {
         setSaving(true);
         setMessage(null);
 
+        console.log('📤 Enviando configurações:', config);
+
         try {
             const result = await updateConfiguracoes(config);
+            console.log('📥 Resposta do servidor:', result);
             if (result.success) {
                 showMessage('✅ Configurações salvas com sucesso!', 'success');
             } else {
                 showMessage(result.message || '❌ Erro ao salvar configurações', 'error');
             }
         } catch (error) {
+            console.error('❌ Erro:', error);
             showMessage('❌ Erro de conexão com o servidor', 'error');
         } finally {
             setSaving(false);
@@ -155,9 +176,15 @@ const AdminDashboard = () => {
                             <h2>Seção Sobre</h2>
                             <div className="form-group"><label>Título</label><input type="text" name="sobre_titulo" value={config?.sobre_titulo || 'Sobre a LLRH'} onChange={handleChange} /></div>
                             <div className="form-group"><label>Conteúdo Principal</label><RichTextEditor value={config?.sobre_conteudo || ''} onChange={(html) => handleRichTextChange('sobre_conteudo', html)} placeholder="Digite o conteúdo..." /></div>
-                            <div className="form-group"><label>Missão</label><RichTextEditor value={config?.sobre_missao || ''} onChange={(html) => handleRichTextChange('sobre_missao', html)} placeholder="Digite a missão..." /></div>
-                            <div className="form-group"><label>Visão</label><RichTextEditor value={config?.sobre_visao || ''} onChange={(html) => handleRichTextChange('sobre_visao', html)} placeholder="Digite a visão..." /></div>
-                            <div className="form-group"><label>Valores</label><RichTextEditor value={config?.sobre_valores || ''} onChange={(html) => handleRichTextChange('sobre_valores', html)} placeholder="Digite os valores..." /></div>
+                            <div className="form-group"><label>Missão</label>
+                                <textarea name="sobre_missao" rows="3" value={config?.sobre_missao || ''} onChange={handleChange} placeholder="Digite a missão..." />
+                            </div>
+                            <div className="form-group"><label>Visão</label>
+                                <textarea name="sobre_visao" rows="3" value={config?.sobre_visao || ''} onChange={handleChange} placeholder="Digite a visão..." />
+                            </div>
+                            <div className="form-group"><label>Valores</label>
+                                <textarea name="sobre_valores" rows="3" value={config?.sobre_valores || ''} onChange={handleChange} placeholder="Digite os valores..." />
+                            </div>
                         </div>
                     </div>
                 );
@@ -241,10 +268,22 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                 );
+            case 'desenvolvedor':
+                // Verifica se está autenticado como dev
+                const devToken = localStorage.getItem('devToken');
+                const devUser = localStorage.getItem('devUser');
+                if (!devToken || !devUser) {
+                    window.location.href = '/?dev=true';
+                    return <div className="dev-loading">Redirecionando para login...</div>;
+                }
+                return <DesenvolvedorAdmin />;
             default:
                 return null;
         }
     };
+
+    // Verifica se a aba atual é 'desenvolvedor' para não envolver em form
+    const isDevTab = activeTab === 'desenvolvedor';
 
     return (
         <div className="admin-container">
@@ -267,16 +306,23 @@ const AdminDashboard = () => {
                 <button className={`tab-btn ${activeTab === 'imagens' ? 'active' : ''}`} onClick={() => setActiveTab('imagens')}>Imagens</button>
                 <button className={`tab-btn ${activeTab === 'seo' ? 'active' : ''}`} onClick={() => setActiveTab('seo')}>SEO</button>
                 <button className={`tab-btn ${activeTab === 'historia' ? 'active' : ''}`} onClick={() => setActiveTab('historia')}>Nossa História</button>
+                <button className={`tab-btn ${activeTab === 'desenvolvedor' ? 'active' : ''}`} onClick={() => setActiveTab('desenvolvedor')}>👨‍💻 Desenvolvedor</button>
             </div>
             
-            <form onSubmit={handleSubmit} className="admin-form">
-                {renderTabContent()}
-                <div className="form-actions">
-                    <button type="submit" disabled={saving}>
-                        {saving ? '💾 Salvando...' : '💾 Salvar Todas as Configurações'}
-                    </button>
+            {isDevTab ? (
+                <div className="admin-form">
+                    {renderTabContent()}
                 </div>
-            </form>
+            ) : (
+                <form onSubmit={handleSubmit} className="admin-form">
+                    {renderTabContent()}
+                    <div className="form-actions">
+                        <button type="submit" disabled={saving}>
+                            {saving ? '💾 Salvando...' : '💾 Salvar Todas as Configurações'}
+                        </button>
+                    </div>
+                </form>
+            )}
         </div>
     );
 };
