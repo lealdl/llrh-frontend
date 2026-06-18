@@ -177,13 +177,25 @@ const AdminDashboard = () => {
                             <div className="form-group"><label>Título</label><input type="text" name="sobre_titulo" value={config?.sobre_titulo || 'Sobre a LLRH'} onChange={handleChange} /></div>
                             <div className="form-group"><label>Conteúdo Principal</label><RichTextEditor value={config?.sobre_conteudo || ''} onChange={(html) => handleRichTextChange('sobre_conteudo', html)} placeholder="Digite o conteúdo..." /></div>
                             <div className="form-group"><label>Missão</label>
-                                <textarea name="sobre_missao" rows="3" value={config?.sobre_missao || ''} onChange={handleChange} placeholder="Digite a missão..." />
+                                <RichTextEditor 
+                                    value={config?.sobre_missao || ''} 
+                                    onChange={(html) => handleRichTextChange('sobre_missao', html)} 
+                                    placeholder="Digite a missão..." 
+                                />
                             </div>
                             <div className="form-group"><label>Visão</label>
-                                <textarea name="sobre_visao" rows="3" value={config?.sobre_visao || ''} onChange={handleChange} placeholder="Digite a visão..." />
+                                <RichTextEditor 
+                                    value={config?.sobre_visao || ''} 
+                                    onChange={(html) => handleRichTextChange('sobre_visao', html)} 
+                                    placeholder="Digite a visão..." 
+                                />
                             </div>
                             <div className="form-group"><label>Valores</label>
-                                <textarea name="sobre_valores" rows="3" value={config?.sobre_valores || ''} onChange={handleChange} placeholder="Digite os valores..." />
+                                <RichTextEditor 
+                                    value={config?.sobre_valores || ''} 
+                                    onChange={(html) => handleRichTextChange('sobre_valores', html)} 
+                                    placeholder="Digite os valores..." 
+                                />
                             </div>
                         </div>
                     </div>
