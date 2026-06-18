@@ -194,3 +194,136 @@
     min-width: auto;
   }
 }
+
+.dev-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dev-section-header h3 {
+  margin: 0;
+}
+
+.dev-edit-btn {
+  padding: 8px 16px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.dev-edit-btn:hover {
+  background: #5a6fd6;
+  transform: translateY(-2px);
+}
+
+.dev-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dev-form .form-group {
+  margin-bottom: 0;
+}
+
+.dev-form .form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.dev-form .form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.dev-form .form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.dev-save-btn {
+  grid-column: 1 / -1;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.dev-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.dev-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dev-info-item a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+.dev-info-item a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .dev-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.avatar-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.avatar-option {
+  width: 44px;
+  height: 44px;
+  font-size: 1.5rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-option:hover {
+  border-color: #667eea;
+  transform: scale(1.1);
+}
+
+.avatar-option.active {
+  border-color: #667eea;
+  background: #e8ecff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}

@@ -16,6 +16,8 @@ const Header = ({ onLogout, isDev = false }) => {
   const [scrolled, setScrolled] = useState(false);
   const [devModalOpen, setDevModalOpen] = useState(false);
 
+  const anoAtual = new Date().getFullYear();
+
   useEffect(() => {
     const carregarLogo = async () => {
       try {
@@ -159,7 +161,7 @@ const Header = ({ onLogout, isDev = false }) => {
         </div>
         
         <div className="drawer-footer">
-          <p>© 2024 LLRH</p>
+          <p>© {anoAtual} LLRH</p>
           <p>Todos os direitos reservados</p>
         </div>
       </div>
