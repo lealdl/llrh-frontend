@@ -7,21 +7,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #0d1117;
+    background: #fff;
     padding: 1rem;
     overflow: hidden;
 }
 
 .dev-login-card {
-    background: #161b22;
+    background: white;
     border-radius: 24px;
     padding: 2rem;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     max-height: 90vh;
     overflow-y: auto;
-    border: 1px solid #30363d;
     scrollbar-width: none;
 }
 
@@ -34,38 +33,79 @@
     margin-bottom: 1.5rem;
 }
 
+.dev-login-logo-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
 .dev-login-logo {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2c5f8a 0%, #1e3a5f 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 2.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 0 auto 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.dev-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
 }
 
 .dev-login-header h2 {
     font-size: 1.3rem;
-    color: #f0f6fc;
+    color: #1a1a2e;
     margin-bottom: 0.3rem;
 }
 
 .dev-login-header p {
-    color: #8b949e;
+    color: #64748b;
     font-size: 0.75rem;
 }
 
 .dev-login-error {
-    background: #da3633;
-    color: #fff;
+    background: #fee2e2;
+    color: #dc2626;
     padding: 0.6rem;
     border-radius: 8px;
     margin-bottom: 1rem;
     text-align: center;
     font-size: 0.75rem;
+}
+
+.dev-login-message {
+    padding: 0.6rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.75rem;
+}
+
+.dev-login-message.success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.dev-login-message.error {
+    background: #fee2e2;
+    color: #dc2626;
 }
 
 .dev-login-form .form-group {
@@ -75,7 +115,7 @@
 .dev-login-form label {
     display: block;
     font-weight: 500;
-    color: #f0f6fc;
+    color: #1a1a2e;
     margin-bottom: 0.3rem;
     font-size: 0.8rem;
 }
@@ -83,21 +123,16 @@
 .dev-login-form input {
     width: 100%;
     padding: 0.65rem;
-    background: #0d1117;
-    border: 1px solid #30363d;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     font-size: 0.9rem;
     transition: border-color 0.3s;
-    color: #f0f6fc;
+    background: white;
 }
 
 .dev-login-form input:focus {
     outline: none;
-    border-color: #667eea;
-}
-
-.dev-login-form input::placeholder {
-    color: #484f58;
+    border-color: #2c5f8a;
 }
 
 .password-wrapper {
@@ -122,17 +157,17 @@
     padding: 6px;
     border-radius: 4px;
     transition: background 0.3s;
-    color: #8b949e;
+    color: #94a3b8;
 }
 
 .password-toggle-btn:hover {
-    background: #21262d;
-    color: #f0f6fc;
+    background: #f1f5f9;
+    color: #2c5f8a;
 }
 
 .dev-login-btn {
     width: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #2c5f8a;
     color: white;
     border: none;
     padding: 0.7rem;
@@ -140,16 +175,15 @@
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.3s;
 }
 
 .dev-login-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    background: #1e3a5f;
 }
 
 .dev-login-btn:disabled {
-    opacity: 0.6;
+    background: #94a3b8;
     cursor: not-allowed;
 }
 
@@ -157,9 +191,14 @@
     text-align: center;
     margin-top: 1.2rem;
     padding-top: 0.8rem;
-    border-top: 1px solid #30363d;
+    border-top: 1px solid #e2e8f0;
     font-size: 0.7rem;
-    color: #8b949e;
+    color: #94a3b8;
+}
+
+.dev-login-form input::placeholder {
+    color: #cbd5e1;
+    font-size: 0.8rem;
 }
 
 .spinner {
@@ -188,9 +227,77 @@
     font-size: 0.85rem;
 }
 
+.link-btn {
+    background: none;
+    border: none;
+    color: #2c5f8a;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.link-btn:hover {
+    color: #1e3a5f;
+    text-decoration: underline;
+}
+
+@media (max-height: 600px) {
+    .dev-login-card {
+        padding: 1.2rem;
+    }
+    
+    .dev-login-logo-img,
+    .dev-login-logo {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 0.3rem;
+    }
+    
+    .dev-login-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .dev-login-header p {
+        font-size: 0.7rem;
+    }
+    
+    .dev-login-form .form-group {
+        margin-bottom: 0.8rem;
+    }
+    
+    .dev-login-form label {
+        font-size: 0.75rem;
+    }
+    
+    .dev-login-form input {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .dev-login-btn {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .dev-login-footer {
+        margin-top: 0.8rem;
+        padding-top: 0.5rem;
+    }
+}
+
 @media (max-width: 480px) {
     .dev-login-card {
         padding: 1.5rem;
         max-width: 90%;
+    }
+    
+    .dev-login-logo-img,
+    .dev-login-logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .dev-login-header h2 {
+        font-size: 1.2rem;
     }
 }

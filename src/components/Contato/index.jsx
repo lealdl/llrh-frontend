@@ -29,32 +29,34 @@ const Contato = () => {
   const email = config?.email_contato || 'contato@llrh.com.br';
   const horario = config?.horario_funcionamento || 'Segunda a Sexta: 9h às 18h';
   const imagem = config?.contato_imagem;
+  
+  const candidatoTitulo = config?.contato_candidato_titulo || 'Sou Candidato';
+  const candidatoDescricao = config?.contato_candidato_descricao || 'Busco oportunidades de emprego';
+  const empresaTitulo = config?.contato_empresa_titulo || 'Sou Empresa';
+  const empresaDescricao = config?.contato_empresa_descricao || 'Preciso de serviços de RH';
+  const outroTitulo = config?.contato_outro_titulo || 'Outro Assunto';
+  const outroDescricao = config?.contato_outro_descricao || 'Dúvidas gerais ou parcerias';
 
-  // Limpar número do WhatsApp (remover espaços, parênteses, traços)
-  const numeroWhatsApp = whatsapp.replace(/[^0-9]/g, '');
-
+  // Função para abrir WhatsApp
   const handleCardClick = (tipo) => {
+    const numeroWhatsApp = whatsapp.replace(/[^0-9]/g, '');
     let mensagem = '';
-    let link = '';
 
     switch (tipo) {
       case 'candidato':
-        mensagem = encodeURIComponent('Olá! Sou candidato(a) e gostaria de informações sobre oportunidades de emprego na LLRH.');
-        link = `https://wa.me/55${numeroWhatsApp}?text=${mensagem}`;
+        mensagem = encodeURIComponent(`Olá! Sou candidato(a) e gostaria de informações sobre oportunidades de emprego na LLRH.`);
         break;
       case 'empresa':
-        mensagem = encodeURIComponent('Olá! Sou empresa e gostaria de contratar serviços de RH da LLRH.');
-        link = `https://wa.me/55${numeroWhatsApp}?text=${mensagem}`;
+        mensagem = encodeURIComponent(`Olá! Sou empresa e gostaria de contratar serviços de RH da LLRH.`);
         break;
       case 'outro':
-        mensagem = encodeURIComponent('Olá! Gostaria de tirar uma dúvida ou falar sobre parcerias com a LLRH.');
-        link = `https://wa.me/55${numeroWhatsApp}?text=${mensagem}`;
+        mensagem = encodeURIComponent(`Olá! Gostaria de tirar uma dúvida ou falar sobre parcerias com a LLRH.`);
         break;
       default:
         return;
     }
 
-    window.open(link, '_blank');
+    window.open(`https://wa.me/55${numeroWhatsApp}?text=${mensagem}`, '_blank');
   };
 
   return (
@@ -66,34 +68,32 @@ const Contato = () => {
         </div>
 
         <div className="contato-grid">
-          {/* Lado Esquerdo - Cards de Opções */}
           <div className="contato-opcoes">
             <div className="opcao-card" onClick={() => handleCardClick('candidato')}>
               <span className="opcao-icon">🔗</span>
               <div className="opcao-content">
-                <h4>Sou Candidato</h4>
-                <p>Busco oportunidades de emprego</p>
+                <h4>{candidatoTitulo}</h4>
+                <p>{candidatoDescricao}</p>
               </div>
             </div>
 
             <div className="opcao-card" onClick={() => handleCardClick('empresa')}>
               <span className="opcao-icon">🔗</span>
               <div className="opcao-content">
-                <h4>Sou Empresa</h4>
-                <p>Preciso de serviços de RH</p>
+                <h4>{empresaTitulo}</h4>
+                <p>{empresaDescricao}</p>
               </div>
             </div>
 
             <div className="opcao-card" onClick={() => handleCardClick('outro')}>
               <span className="opcao-icon">🔗</span>
               <div className="opcao-content">
-                <h4>Outro Assunto</h4>
-                <p>Dúvidas gerais ou parcerias</p>
+                <h4>{outroTitulo}</h4>
+                <p>{outroDescricao}</p>
               </div>
             </div>
           </div>
 
-          {/* Lado Direito - Info (mantido igual) */}
           <div className="contato-info-wrapper">
             {imagem && (
               <div className="contato-imagem">

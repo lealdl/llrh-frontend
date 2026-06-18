@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getConfiguracoes } from '../../services/api';
 import './devlogin.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/api-llrh';
@@ -9,6 +10,24 @@ const DevLogin = ({ onLoginSuccess }) => {
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [logoUrl, setLogoUrl] = useState(null);
+    const [loadingLogo, setLoadingLogo] = useState(true);
+
+    useEffect(() => {
+        const carregarLogo = async () => {
+            try {
+                const response = await getConfiguracoes();
+                if (response.success && response.data && response.data.logo_url) {
+                    setLogoUrl(response.data.logo_url);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar logo:', error);
+            } finally {
+                setLoadingLogo(false);
+            }
+        };
+        carregarLogo();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,9 +70,18 @@ const DevLogin = ({ onLoginSuccess }) => {
         <div className="dev-login-container">
             <div className="dev-login-card">
                 <div className="dev-login-header">
-                    <div className="dev-login-logo">
-                        👨‍💻
-                    </div>
+                    {logoUrl ? (
+                        <img 
+                            src={`${logoUrl}?t=${Date.now()}`} 
+                            alt="LLRH Logo" 
+                            className="dev-login-logo-img"
+                        />
+                    ) : (
+                        <div className="dev-login-logo">
+                            {loadingLogo ? '...' : 'LLRH'}
+                        </div>
+                    )}
+                    <div className="dev-badge">👨‍💻 DEV</div>
                     <h2>Área do Desenvolvedor</h2>
                     <p>Acesso restrito à equipe de desenvolvimento</p>
                 </div>
