@@ -14,11 +14,24 @@ const ChatbotAdmin = () => {
     const [error, setError] = useState(null);
     const [loadingHistory, setLoadingHistory] = useState(false);
     const [selectedUsuario, setSelectedUsuario] = useState('todos');
-    const [filteredSessions, setFilteredSessions] = useState([]);
+
+    // ========== STATES PARA DELETAR ==========
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState('');
+    const [deleteType, setDeleteType] = useState('usuario');
+    const [deleting, setDeleting] = useState(false);
+    const [toast, setToast] = useState(null);
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/api-llrh';
 
     const getToken = () => localStorage.getItem('token');
+
+    // ========== TOAST ==========
+    const showToast = (message, type = 'success') => {
+        setToast({ message, type });
+        setTimeout(() => setToast(null), 4000);
+    };
 
     // ========== CARREGAR ESTATÍSTICAS ==========
     const carregarStats = async () => {
@@ -91,18 +104,19 @@ const ChatbotAdmin = () => {
             const data = await response.json();
 
             if (Array.isArray(data) && data.length > 0) {
-                // Ordenar por quantidade de mensagens
                 const sorted = data.sort((a, b) => b.total_mensagens - a.total_mensagens);
                 setUsuarios(sorted);
 
-                // Selecionar o primeiro usuário automaticamente
                 if (sorted.length > 0) {
                     setSelectedUsuario(sorted[0].usuario_nome);
                     await carregarMensagensPorUsuario(sorted[0].usuario_nome);
                 }
+            } else {
+                await carregarUltimasMensagens();
             }
         } catch (err) {
             console.error('Erro ao carregar usuários:', err);
+            await carregarUltimasMensagens();
         }
     };
 
@@ -203,11 +217,76 @@ const ChatbotAdmin = () => {
         }
     };
 
+    // ========== DELETAR MENSAGENS ==========
+    const confirmarDelecao = () => {
+        // Fecha o modal de seleção e abre o de confirmação
+        setShowConfirmModal(true);
+    };
+
+    const executarDelecao = async () => {
+        setDeleting(true);
+        try {
+            const token = getToken();
+            if (!token) return;
+
+            let url = '';
+            let body = {};
+
+            if (deleteType === 'todas') {
+                url = `${API_URL}/admin/chatbot/deletar/todas`;
+            } else if (deleteType === 'usuario') {
+                if (!deleteTarget) {
+                    showToast('Selecione um usuário', 'error');
+                    setDeleting(false);
+                    return;
+                }
+                url = `${API_URL}/admin/chatbot/deletar/usuario`;
+                body = { usuario: deleteTarget };
+            } else if (deleteType === 'sessao') {
+                if (!deleteTarget) {
+                    showToast('Selecione uma sessão', 'error');
+                    setDeleting(false);
+                    return;
+                }
+                url = `${API_URL}/admin/chatbot/deletar/sessao`;
+                body = { sessao_id: deleteTarget };
+            }
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(body)
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                showToast(`✅ ${data.message}`, 'success');
+                setShowDeleteModal(false);
+                setShowConfirmModal(false);
+                // Recarregar todos os dados
+                await carregarTudo();
+                if (activeTab === 'history') {
+                    await carregarUsuarios();
+                }
+            } else {
+                showToast(`❌ ${data.error || 'Erro ao deletar'}`, 'error');
+            }
+        } catch (err) {
+            showToast(`❌ Erro: ${err.message}`, 'error');
+        } finally {
+            setDeleting(false);
+        }
+    };
+
     // ========== CARREGAR TUDO ==========
     const carregarTudo = async () => {
         setLoading(true);
         setError(null);
-        await Promise.all([carregarStats(), carregarTopQuestions(), carregarUsuarios()]);
+        await Promise.all([carregarStats(), carregarTopQuestions()]);
+        await carregarUsuarios();
         setLoading(false);
     };
 
@@ -221,9 +300,22 @@ const ChatbotAdmin = () => {
 
     return (
         <div className="chatbot-admin">
+            {/* ===== TOAST ===== */}
+            {toast && (
+                <div className={`chatbot-toast ${toast.type}`}>
+                    <span>{toast.message}</span>
+                    <button className="toast-close" onClick={() => setToast(null)}>×</button>
+                </div>
+            )}
+
             <div className="chatbot-admin-header">
                 <h2>💬 Chatbot - Administração</h2>
-                <button className="refresh-btn" onClick={carregarTudo}>🔄 Atualizar</button>
+                <div className="header-actions">
+                    <button className="delete-btn" onClick={() => setShowDeleteModal(true)}>
+                        🗑️ Deletar Mensagens
+                    </button>
+                    <button className="refresh-btn" onClick={carregarTudo}>🔄 Atualizar</button>
+                </div>
             </div>
 
             {error && (
@@ -348,7 +440,6 @@ const ChatbotAdmin = () => {
                 <div className="history-section">
                     <h3>📜 Histórico de Conversas</h3>
 
-                    {/* ===== DROPDOWN DE USUÁRIOS ===== */}
                     {usuarios.length > 0 && (
                         <div className="usuarios-dropdown">
                             <label>👤 Selecione um visitante:</label>
@@ -369,7 +460,6 @@ const ChatbotAdmin = () => {
                         </div>
                     )}
 
-                    {/* ===== BUSCA POR SESSÃO ===== */}
                     <div className="search-box">
                         <input
                             type="text"
@@ -383,7 +473,6 @@ const ChatbotAdmin = () => {
                         </button>
                     </div>
 
-                    {/* ===== RESULTADO ===== */}
                     {searchResult && (
                         <div className="history-result">
                             <h4>
@@ -424,6 +513,132 @@ const ChatbotAdmin = () => {
                             )}
                         </div>
                     )}
+                </div>
+            )}
+
+            {/* ===== MODAL DE SELEÇÃO ===== */}
+            {showDeleteModal && (
+                <div className="delete-modal-overlay" onClick={() => { setShowDeleteModal(false); setShowConfirmModal(false); }}>
+                    <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="delete-modal-header">
+                            <h3>🗑️ Deletar Mensagens</h3>
+                            <button className="delete-modal-close" onClick={() => { setShowDeleteModal(false); setShowConfirmModal(false); }}>×</button>
+                        </div>
+
+                        <div className="delete-modal-body">
+                            <div className="delete-type-selector">
+                                <button
+                                    className={`delete-type-btn ${deleteType === 'usuario' ? 'active' : ''}`}
+                                    onClick={() => {
+                                        setDeleteType('usuario');
+                                        setDeleteTarget('');
+                                    }}
+                                >
+                                    👤 Por Usuário
+                                </button>
+                                <button
+                                    className={`delete-type-btn ${deleteType === 'sessao' ? 'active' : ''}`}
+                                    onClick={() => {
+                                        setDeleteType('sessao');
+                                        setDeleteTarget('');
+                                    }}
+                                >
+                                    📋 Por Sessão
+                                </button>
+                                <button
+                                    className={`delete-type-btn ${deleteType === 'todas' ? 'active' : ''}`}
+                                    onClick={() => {
+                                        setDeleteType('todas');
+                                        setDeleteTarget('');
+                                    }}
+                                >
+                                    🗑️ Todas
+                                </button>
+                            </div>
+
+                            {deleteType === 'usuario' && (
+                                <div className="delete-select-group">
+                                    <label>Selecione um usuário:</label>
+                                    <select
+                                        value={deleteTarget}
+                                        onChange={(e) => setDeleteTarget(e.target.value)}
+                                    >
+                                        <option value="">-- Selecione --</option>
+                                        {usuarios.map((user) => (
+                                            <option key={user.usuario_nome} value={user.usuario_nome}>
+                                                {user.usuario_nome} ({user.total_mensagens} mensagens)
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+
+                            {deleteType === 'sessao' && (
+                                <div className="delete-select-group">
+                                    <label>Selecione uma sessão:</label>
+                                    <select
+                                        value={deleteTarget}
+                                        onChange={(e) => setDeleteTarget(e.target.value)}
+                                    >
+                                        <option value="">-- Selecione --</option>
+                                        {allSessions.map((sessao) => (
+                                            <option key={sessao.sessao_id} value={sessao.sessao_id}>
+                                                {sessao.sessao_id} ({sessao.total_mensagens} mensagens)
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+
+                            {deleteType === 'todas' && (
+                                <div className="delete-warning-all">
+                                    <p>⚠️ <strong>Todas as mensagens</strong> do chatbot serão deletadas permanentemente!</p>
+                                    <p style={{ color: '#dc2626', fontWeight: 'bold' }}>Esta ação não pode ser desfeita!</p>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="delete-modal-footer">
+                            <button className="delete-cancel-btn" onClick={() => { setShowDeleteModal(false); setShowConfirmModal(false); }}>
+                                Cancelar
+                            </button>
+                            <button
+                                className="delete-confirm-btn"
+                                onClick={confirmarDelecao}
+                                disabled={deleteType !== 'todas' && !deleteTarget}
+                            >
+                                🗑️ Deletar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ===== MODAL DE CONFIRMAÇÃO ===== */}
+            {showConfirmModal && (
+                <div className="confirm-modal-overlay" onClick={() => setShowConfirmModal(false)}>
+                    <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="confirm-modal-icon">⚠️</div>
+                        <h3>Confirmar Deleção</h3>
+                        <p>
+                            {deleteType === 'todas' && 'Todas as mensagens do chatbot serão deletadas permanentemente!'}
+                            {deleteType === 'usuario' && `Todas as mensagens de "${deleteTarget}" serão deletadas permanentemente!`}
+                            {deleteType === 'sessao' && `Todas as mensagens da sessão "${deleteTarget}" serão deletadas permanentemente!`}
+                        </p>
+                        <p className="confirm-warning">Esta ação não pode ser desfeita!</p>
+                        <div className="confirm-modal-footer">
+                            <button className="confirm-cancel-btn" onClick={() => setShowConfirmModal(false)}>
+                                Cancelar
+                            </button>
+                            <button
+                                className={`confirm-delete-btn ${deleting ? 'loading' : ''}`}
+                                onClick={executarDelecao}
+                                disabled={deleting}
+                            >
+                                {deleting ? '🔄 Deletando...' : '✅ Confirmar Deleção'}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
