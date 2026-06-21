@@ -115,6 +115,7 @@
     height: 160px;
     padding: 12px;
   }
+
   .hero-placeholder {
     width: 140px;
     height: 140px;
@@ -122,24 +123,56 @@
 }
 
 @media (max-width: 768px) {
-  .hero { padding: 40px 0; }
-  .hero-container { flex-direction: column; gap: 25px; }
-  .hero-card { padding: 30px; text-align: center; min-height: auto; }
-  .hero-card-text { text-align: center; }
-  .hero-title { font-size: 1.6rem; }
-  .hero-description { font-size: 0.9rem; }
-  .hero-card-image { order: -1; padding: 15px; }
+  .hero {
+    padding: 40px 0;
+  }
+
+  .hero-container {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .hero-card {
+    padding: 30px;
+    text-align: center;
+    min-height: auto;
+  }
+
+  .hero-card-text {
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+  }
+
+  .hero-card-image {
+    order: -1;
+    padding: 15px;
+  }
+
   .hero-img {
     width: 140px;
     height: 140px;
     padding: 10px;
   }
+
   .hero-placeholder {
     width: 120px;
     height: 120px;
   }
-  .hero-placeholder span:first-child { font-size: 1rem; }
-  .hero-placeholder span:last-child { font-size: 0.4rem; }
+
+  .hero-placeholder span:first-child {
+    font-size: 1rem;
+  }
+
+  .hero-placeholder span:last-child {
+    font-size: 0.4rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -148,9 +181,13 @@
     height: 120px;
     padding: 8px;
   }
+
   .hero-placeholder {
     width: 100px;
     height: 100px;
   }
-  .hero-placeholder span:first-child { font-size: 0.8rem; }
+
+  .hero-placeholder span:first-child {
+    font-size: 0.8rem;
+  }
 }

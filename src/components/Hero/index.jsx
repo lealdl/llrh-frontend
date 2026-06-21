@@ -22,14 +22,14 @@ const Hero = () => {
 
   useEffect(() => {
     carregarHero();
-    
+
     const handleUpdate = () => {
       carregarHero();
     };
-    
+
     window.addEventListener('heroImageUpdated', handleUpdate);
     window.addEventListener('configuracoesAtualizadas', handleUpdate);
-    
+
     return () => {
       window.removeEventListener('heroImageUpdated', handleUpdate);
       window.removeEventListener('configuracoesAtualizadas', handleUpdate);
@@ -74,9 +74,9 @@ const Hero = () => {
 
         <div className="hero-card hero-card-image">
           {imagemHero ? (
-            <img 
-              src={imagemHero} 
-              alt="Hero" 
+            <img
+              src={imagemHero}
+              alt="Hero"
               className="hero-img"
               onError={(e) => {
                 console.error('❌ Erro ao carregar imagem:', imagemHero);

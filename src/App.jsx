@@ -10,6 +10,7 @@ import Footer from './components/Footer'
 import AdminDashboard from './components/Admin'
 import Login from './components/Login'
 import DevLogin from './components/DevLogin'
+import Chatbot from './components/Chatbot'
 import './css/global.css'
 
 function App() {
@@ -18,15 +19,16 @@ function App() {
   const [isDevAuthenticated, setIsDevAuthenticated] = useState(false)
   const [loadingAuth, setLoadingAuth] = useState(true)
 
+  // ========== VERIFICAR TOKEN AO INICIAR ==========
   useEffect(() => {
     const token = localStorage.getItem('token')
     const user = localStorage.getItem('user')
     const devToken = localStorage.getItem('devToken')
     const devUser = localStorage.getItem('devUser')
-    
+
     console.log('🔍 Token admin:', token)
     console.log('🔍 Dev token:', devToken)
-    
+
     if (token && user) {
       setIsAuthenticated(true)
     }
@@ -36,6 +38,39 @@ function App() {
     setLoadingAuth(false)
   }, [])
 
+  // ========== OUVIR MUDANÇAS NO TOKEN ==========
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem('token')
+      const user = localStorage.getItem('user')
+      console.log('🔄 Storage alterado, token:', token)
+      if (token && user) {
+        setIsAuthenticated(true)
+      } else {
+        setIsAuthenticated(false)
+      }
+    }
+
+    // Escuta mudanças no localStorage (de outras abas)
+    window.addEventListener('storage', handleStorageChange)
+
+    // Também verifica periodicamente (para mudanças na mesma aba)
+    const interval = setInterval(() => {
+      const token = localStorage.getItem('token')
+      const user = localStorage.getItem('user')
+      if (token && user && !isAuthenticated) {
+        console.log('🔄 Token detectado via intervalo')
+        setIsAuthenticated(true)
+      }
+    }, 1000)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      clearInterval(interval)
+    }
+  }, [isAuthenticated])
+
+  // ========== SCROLL ==========
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) setMostrarBotaoTopo(true)
@@ -50,6 +85,7 @@ function App() {
   }
 
   const handleLoginSuccess = () => {
+    console.log('✅ Login bem-sucedido, token:', localStorage.getItem('token'))
     setIsAuthenticated(true)
   }
 
@@ -85,14 +121,13 @@ function App() {
 
   // Rota do Desenvolvedor - exige login dev
   if (isDevRoute) {
-    // Forçar logout se não houver token dev
     if (!isDevAuthenticated) {
       console.log('🔐 Mostrando tela de login dev')
       return <DevLogin onLoginSuccess={handleDevLoginSuccess} />
     }
-    
+
     console.log('👨‍💻 Mostrando painel dev')
-    
+
     return (
       <div className="app">
         <Header onLogout={handleDevLogout} isDev={true} />
@@ -126,7 +161,7 @@ function App() {
     )
   }
 
-  // Site público (rota normal)
+  // Site público (rota normal) - COM CHATBOT
   return (
     <div className="app">
       <Header />
@@ -142,6 +177,8 @@ function App() {
       {mostrarBotaoTopo && (
         <button className="btn-topo" onClick={scrollToTop}>↑</button>
       )}
+
+      <Chatbot />
     </div>
   )
 }

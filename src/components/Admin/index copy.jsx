@@ -5,7 +5,7 @@ import ServicosAdmin from './Servicos';
 import ContatoAdmin from './Contato';
 import VagasAdmin from './Vagas';
 import DesenvolvedorAdmin from './Desenvolvedor';
-import ChatbotAdmin from './ChatbotAdmin';
+import ChatbotAdmin from './ChatbotAdmin'; // <-- ADICIONE ESTA LINHA
 import './admin.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost/api-llrh';
@@ -21,9 +21,6 @@ const AdminDashboard = () => {
     const [uploading, setUploading] = useState(false);
     const toastTimeoutRef = useRef(null);
     const [editorKey, setEditorKey] = useState(0);
-
-    // ========== ABAS QUE NÃO PRECISAM DE FORMULÁRIO ==========
-    const tabsSemFormulario = ['chatbot', 'servicos', 'vagas', 'desenvolvedor'];
 
     useEffect(() => {
         carregarConfiguracoes();
@@ -120,13 +117,6 @@ const AdminDashboard = () => {
             console.log('📥 Resposta do servidor:', result);
             if (result.success) {
                 showMessage('✅ Configurações salvas com sucesso!', 'success');
-            } else if (result.status === 401 || result.message?.includes('Token')) {
-                showMessage('⏰ Sessão expirada. Faça login novamente.', 'error');
-                setTimeout(() => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    window.location.href = '/?admin=true';
-                }, 1500);
             } else {
                 showMessage(result.message || '❌ Erro ao salvar configurações', 'error');
             }
@@ -140,7 +130,6 @@ const AdminDashboard = () => {
 
     if (loading) return <div className="admin-loading">Carregando...</div>;
 
-    // ========== RENDERIZAÇÃO DO CONTEÚDO ==========
     const renderTabContent = () => {
         switch (activeTab) {
             case 'geral':
@@ -300,7 +289,7 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                 );
-            case 'chatbot':
+            case 'chatbot': // <-- ADICIONE ESTE CASE
                 return <ChatbotAdmin />;
             case 'desenvolvedor':
                 const devToken = localStorage.getItem('devToken');
@@ -315,7 +304,7 @@ const AdminDashboard = () => {
         }
     };
 
-    const precisaDeFormulario = !tabsSemFormulario.includes(activeTab);
+    const isDevTab = activeTab === 'desenvolvedor';
 
     return (
         <div className="admin-container">
@@ -328,101 +317,35 @@ const AdminDashboard = () => {
                 </div>
             )}
 
-            {/* ========== ABAS ========== */}
             <div className="admin-tabs">
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'geral' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('geral')}
-                >
-                    Informações Gerais
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'redes' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('redes')}
-                >
-                    Redes Sociais
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'sobre' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('sobre')}
-                >
-                    Sobre
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'servicos' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('servicos')}
-                >
-                    Serviços
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'contato' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('contato')}
-                >
-                    Contato
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'vagas' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('vagas')}
-                >
-                    Vagas
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'imagens' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('imagens')}
-                >
-                    Imagens
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'seo' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('seo')}
-                >
-                    SEO
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'historia' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('historia')}
-                >
-                    Nossa História
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'chatbot' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('chatbot')}
-                >
-                    💬 Chatbot
-                </button>
-                <button
-                    type="button"
-                    className={`tab-btn ${activeTab === 'desenvolvedor' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('desenvolvedor')}
-                >
-                    👨‍💻 Desenvolvedor
-                </button>
+                <button className={`tab-btn ${activeTab === 'geral' ? 'active' : ''}`} onClick={() => setActiveTab('geral')}>Informações Gerais</button>
+                <button className={`tab-btn ${activeTab === 'redes' ? 'active' : ''}`} onClick={() => setActiveTab('redes')}>Redes Sociais</button>
+                <button className={`tab-btn ${activeTab === 'sobre' ? 'active' : ''}`} onClick={() => setActiveTab('sobre')}>Sobre</button>
+                <button className={`tab-btn ${activeTab === 'servicos' ? 'active' : ''}`} onClick={() => setActiveTab('servicos')}>Serviços</button>
+                <button className={`tab-btn ${activeTab === 'contato' ? 'active' : ''}`} onClick={() => setActiveTab('contato')}>Contato</button>
+                <button className={`tab-btn ${activeTab === 'vagas' ? 'active' : ''}`} onClick={() => setActiveTab('vagas')}>Vagas</button>
+                <button className={`tab-btn ${activeTab === 'imagens' ? 'active' : ''}`} onClick={() => setActiveTab('imagens')}>Imagens</button>
+                <button className={`tab-btn ${activeTab === 'seo' ? 'active' : ''}`} onClick={() => setActiveTab('seo')}>SEO</button>
+                <button className={`tab-btn ${activeTab === 'historia' ? 'active' : ''}`} onClick={() => setActiveTab('historia')}>Nossa História</button>
+                <button className={`tab-btn ${activeTab === 'chatbot' ? 'active' : ''}`} onClick={() => setActiveTab('chatbot')}>💬 Chatbot</button> {/* <-- ADICIONE ESTA LINHA */}
+                <button className={`tab-btn ${activeTab === 'desenvolvedor' ? 'active' : ''}`} onClick={() => setActiveTab('desenvolvedor')}>👨‍💻 Desenvolvedor</button>
             </div>
 
-            {/* ========== CONTEÚDO ========== */}
-            {precisaDeFormulario ? (
-                <form onSubmit={handleSubmit} className="admin-form">
-                    {renderTabContent()}
-                    <div className="form-actions">
-                        <button type="submit" disabled={saving}>
-                            {saving ? '💾 Salvando...' : '💾 Salvar Todas as Configurações'}
-                        </button>
-                    </div>
-                </form>
-            ) : (
+            {isDevTab ? (
                 <div className="admin-form">
                     {renderTabContent()}
                 </div>
+            ) : (
+                <form onSubmit={handleSubmit} className="admin-form">
+                    {renderTabContent()}
+                    {activeTab !== 'chatbot' && activeTab !== 'servicos' && activeTab !== 'vagas' && activeTab !== 'desenvolvedor' && ( // <-- ADICIONE ESTA CONDIÇÃO
+                        <div className="form-actions">
+                            <button type="submit" disabled={saving}>
+                                {saving ? '💾 Salvando...' : '💾 Salvar Todas as Configurações'}
+                            </button>
+                        </div>
+                    )}
+                </form>
             )}
         </div>
     );
